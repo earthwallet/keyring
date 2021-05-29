@@ -7,3 +7,6 @@ To run test
 
 To Publish docs
 `yarn docs`
+
+Documentation found at
+https://earthwallet.github.io/sdk/
