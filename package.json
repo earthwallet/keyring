@@ -1,7 +1,7 @@
 {
-  "name": "earthjs",
-  "version": "1.0.1",
-  "description": "the new generation web3 wallet generator",
+  "name": "earth-sdk",
+  "version": "0.1.0",
+  "description": "Your Keys to the New Internet",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
