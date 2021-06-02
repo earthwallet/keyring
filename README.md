@@ -1,12 +1,9 @@
-# earthjs
+# Earth Wallet SDK
 
-the new generation web3 wallet generator
+Your keys to Web3.0. See the full docs [here](https://earthwallet.github.io/sdk/).
 
-To run test
+## Run Tests
 `yarn test`
 
-To Publish docs
+## Public Docs
 `yarn docs`
-
-Documentation found at
-https://earthwallet.github.io/sdk/
