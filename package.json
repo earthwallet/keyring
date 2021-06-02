@@ -44,11 +44,14 @@
     "node": ">=14"
   },
   "dependencies": {
+    "@dfinity/agent": "^0.8.9",
+    "@dfinity/rosetta-client": "^0.5.1",
     "@metamask/slip44": "^1.0.0",
     "@polkadot/keyring": "^6.5.1",
     "@polkadot/util": "^6.5.1",
     "@polkadot/util-crypto": "^6.5.1",
     "bip39": "^3.0.4",
+    "crc-32": "^1.2.0",
     "elliptic": "^6.5.4",
     "ethereumjs-util": "^7.0.10",
     "hdkey": "^2.0.1",

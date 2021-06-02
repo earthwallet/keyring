@@ -1,17 +1,17 @@
+import {
+  address_to_hex,
+  principal_id_to_address,
+} from '@dfinity/rosetta-client';
 import Keyring from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
-import {
-  cryptoWaitReady,
-  //  encodeAddress,
-  //  keyHdkdSr25519,
-  // secp256k1KeypairFromSeed,
-} from '@polkadot/util-crypto';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import elliptic from 'elliptic';
 import { publicToAddress } from 'ethereumjs-util';
 import HDKey from 'hdkey';
 import * as nacl from 'tweetnacl';
 
+import { getPrincipalFromPublicKey } from './ICPUtils';
 import SLIP44 from './slip44';
 
 const secp256k1 = elliptic.ec('secp256k1');
@@ -125,8 +125,8 @@ export const createWallet = async (
 ) => {
   const SLIP_ACCOUNT = account === undefined ? 0 : account;
   const SLIP_INDEX = getSlipFromSymbol(symbol).index; //defaults to ethereum
-  const SLIP_PATH = `m/44'/${SLIP_INDEX}'/${SLIP_ACCOUNT}'/0/0`;
-  // const ICP_PATH = `m/44'/223'/0'`;
+  const SLIP_PATH = `m/44'/${SLIP_INDEX}'/0'/0/${SLIP_ACCOUNT}`;
+  //  const ICP_PATH = `m/44'/223'/0'`;
 
   switch (symbol) {
     case 'KSM': {
@@ -163,12 +163,16 @@ export const createWallet = async (
 
       const publicKeyBuffer = Buffer.from(publicKey, 'hex');
       const addressBuffer = publicToAddress(publicKeyBuffer, true);
+
+      masterPrv.wipePrivateData();
       return {
         publicKey: publicKey,
         address:
           symbol === 'ETH'
             ? '0x' + addressBuffer.toString('hex')
-            : addressBuffer.toString('hex'),
+            : address_to_hex(
+                principal_id_to_address(getPrincipalFromPublicKey(publicKey))
+              ),
         type: 'ecdsa',
       };
     }

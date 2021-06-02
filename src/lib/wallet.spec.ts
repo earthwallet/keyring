@@ -11,7 +11,27 @@ test('create wallet for ICP', async (t) => {
     t.deepEqual(walletObj, {
       publicKey:
         '04931f4d17682b3dedbbd87d29d86040ee5f361a182045c3475ff2fc05af7e30a79f1040784655b226520dbb71aac3edc951cd50a64c138596ef746265e4cf122f',
-      address: '01ec886a057ec4cb17e0e7ecaefff89e6a170ffd',
+      address:
+        '02f2326544f2040d3985e31db5e7021402c541d3cde911cd20e951852ee4da47',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for ICP Index 1', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'ICP',
+      1
+    );
+    t.deepEqual(walletObj, {
+      publicKey:
+        '042c51d9b734532368428567d139bf536fb4520a1bb7f8dd859a5baf621aebc1b7ff1b6c5fe5c5411f0ca6c117c2c34482bc96019e5131bf53662d8c1c477a22fe',
+      address:
+        '8a8861c41810197542313a309449e33d35915305ab9d3036c803ed235f7cd5b3',
       type: 'ecdsa',
     });
   } catch (error) {
