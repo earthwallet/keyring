@@ -1,9 +1,10 @@
+import type { Signer } from '@polkadot/api/types';
+
 import type {
   Injected,
   InjectedAccount,
   InjectedWindow,
 } from '../../inject/types';
-import type { Signer } from '@polkadot/api/types';
 
 // RxJs interface, only the bare-bones of what we need here
 interface Subscriber<T> {

@@ -29,7 +29,9 @@ export interface InjectedAccountWithMeta {
 
 export interface InjectedAccounts {
   get: (anyType?: boolean) => Promise<InjectedAccount[]>;
-  subscribe: (cb: (accounts: InjectedAccount[]) => void | Promise<void>) => Unsubcall;
+  subscribe: (
+    cb: (accounts: InjectedAccount[]) => void | Promise<void>
+  ) => Unsubcall;
 }
 
 export interface InjectedExtensionInfo {
@@ -76,7 +78,7 @@ export interface InjectedMetadata {
   provide: (definition: MetadataDef) => Promise<boolean>;
 }
 
-export type ProviderList = Record<string, ProviderMeta>
+export type ProviderList = Record<string, ProviderMeta>;
 
 export interface InjectedProvider extends ProviderInterface {
   listProviders: () => Promise<ProviderList>;
@@ -110,5 +112,5 @@ export type InjectedExtension = InjectedExtensionInfo & Injected;
 export type InjectOptions = InjectedExtensionInfo;
 
 export interface Web3AccountsOptions {
-  ss58Format?: number
+  ss58Format?: number;
 }

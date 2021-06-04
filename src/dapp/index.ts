@@ -1,6 +1,9 @@
 // Copyright 2021 @earthwallet/extension-dapp authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { u8aEq } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+
 import type {
   Injected,
   InjectedAccount,
@@ -13,9 +16,6 @@ import type {
   Unsubcall,
   Web3AccountsOptions,
 } from '../inject/types';
-
-import { u8aEq } from '@polkadot/util';
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import { documentReadyPromise } from './util';
 
