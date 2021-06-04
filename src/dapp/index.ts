@@ -44,10 +44,10 @@ function mapAccounts(
   ss58Format?: number
 ): InjectedAccountWithMeta[] {
   return list.map(({ address, genesisHash, name }): InjectedAccountWithMeta => {
-    const encodedAddress = encodeAddress(decodeAddress(address), ss58Format);
-
+    //const encodedAddress = encodeAddress(decodeAddress(address), ss58Format);
+    console.log('ss58Format', ss58Format);
     return {
-      address: encodedAddress,
+      address: address,
       meta: { genesisHash, name, source },
     };
   });
