@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { u8aEq } from '@polkadot/util';
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import type {
   Injected,
