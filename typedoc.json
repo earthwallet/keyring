@@ -25,7 +25,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 93,
+							"line": 95,
 							"character": 10
 						}
 					],
@@ -47,7 +47,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 94,
+							"line": 96,
 							"character": 10
 						}
 					],
@@ -69,7 +69,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 95,
+							"line": 97,
 							"character": 10
 						}
 					],
@@ -90,7 +90,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 96,
+							"line": 98,
 							"character": 8
 						}
 					],
@@ -115,7 +115,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 92,
+					"line": 94,
 					"character": 25
 				}
 			]
@@ -599,8 +599,8 @@
 													"sources": [
 														{
 															"fileName": "src/inject/types.ts",
-															"line": 32,
-															"character": 17
+															"line": 33,
+															"character": 7
 														}
 													]
 												}
@@ -663,7 +663,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 36,
+							"line": 38,
 							"character": 6
 						}
 					],
@@ -683,7 +683,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 37,
+							"line": 39,
 							"character": 9
 						}
 					],
@@ -706,7 +706,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 35,
+					"line": 37,
 					"character": 38
 				}
 			]
@@ -731,7 +731,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 75,
+							"line": 77,
 							"character": 5
 						}
 					],
@@ -773,7 +773,7 @@
 							"sources": [
 								{
 									"fileName": "src/inject/types.ts",
-									"line": 75,
+									"line": 77,
 									"character": 6
 								}
 							]
@@ -791,7 +791,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 76,
+							"line": 78,
 							"character": 9
 						}
 					],
@@ -845,7 +845,7 @@
 							"sources": [
 								{
 									"fileName": "src/inject/types.ts",
-									"line": 76,
+									"line": 78,
 									"character": 10
 								}
 							]
@@ -866,7 +866,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 74,
+					"line": 76,
 					"character": 33
 				}
 			]
@@ -891,7 +891,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 70,
+							"line": 72,
 							"character": 13
 						}
 					],
@@ -911,7 +911,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 71,
+							"line": 73,
 							"character": 13
 						}
 					],
@@ -934,7 +934,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 69,
+					"line": 71,
 					"character": 38
 				}
 			]
@@ -1011,7 +1011,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 82,
+							"line": 84,
 							"character": 15
 						}
 					],
@@ -1050,7 +1050,7 @@
 							"sources": [
 								{
 									"fileName": "src/inject/types.ts",
-									"line": 82,
+									"line": 84,
 									"character": 16
 								}
 							]
@@ -1068,7 +1068,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 83,
+							"line": 85,
 							"character": 15
 						}
 					],
@@ -1122,7 +1122,7 @@
 							"sources": [
 								{
 									"fileName": "src/inject/types.ts",
-									"line": 83,
+									"line": 85,
 									"character": 16
 								}
 							]
@@ -1695,7 +1695,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 81,
+					"line": 83,
 					"character": 33
 				}
 			],
@@ -1726,7 +1726,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 89,
+							"line": 91,
 							"character": 6
 						}
 					],
@@ -1747,7 +1747,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 88,
+							"line": 90,
 							"character": 10
 						}
 					],
@@ -1771,7 +1771,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 86,
+					"line": 88,
 					"character": 41
 				}
 			]
@@ -1796,7 +1796,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 105,
+							"line": 107,
 							"character": 10
 						}
 					],
@@ -1829,7 +1829,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 104,
+					"line": 106,
 					"character": 31
 				}
 			],
@@ -1867,7 +1867,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 100,
+							"line": 102,
 							"character": 8
 						}
 					],
@@ -1921,7 +1921,7 @@
 							"sources": [
 								{
 									"fileName": "src/inject/types.ts",
-									"line": 100,
+									"line": 102,
 									"character": 9
 								}
 							]
@@ -1939,7 +1939,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 101,
+							"line": 103,
 							"character": 9
 						}
 					],
@@ -1962,7 +1962,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 99,
+					"line": 101,
 					"character": 39
 				}
 			]
@@ -1987,7 +1987,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 53,
+							"line": 55,
 							"character": 7
 						}
 					],
@@ -2013,7 +2013,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 60,
+							"line": 62,
 							"character": 7
 						}
 					],
@@ -2033,7 +2033,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 54,
+							"line": 56,
 							"character": 13
 						}
 					],
@@ -2058,7 +2058,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 55,
+							"line": 57,
 							"character": 6
 						}
 					],
@@ -2084,7 +2084,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 65,
+							"line": 67,
 							"character": 11
 						}
 					],
@@ -2104,7 +2104,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 61,
+							"line": 63,
 							"character": 13
 						}
 					],
@@ -2124,7 +2124,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 56,
+							"line": 58,
 							"character": 12
 						}
 					],
@@ -2149,7 +2149,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 62,
+							"line": 64,
 							"character": 15
 						}
 					],
@@ -2169,7 +2169,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 63,
+							"line": 65,
 							"character": 13
 						}
 					],
@@ -2189,7 +2189,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 64,
+							"line": 66,
 							"character": 7
 						}
 					],
@@ -2239,7 +2239,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 66,
+							"line": 68,
 							"character": 16
 						}
 					],
@@ -2271,7 +2271,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 59,
+					"line": 61,
 					"character": 28
 				}
 			],
@@ -2303,7 +2303,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 53,
+							"line": 55,
 							"character": 7
 						}
 					],
@@ -2323,7 +2323,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 54,
+							"line": 56,
 							"character": 13
 						}
 					],
@@ -2343,7 +2343,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 55,
+							"line": 57,
 							"character": 6
 						}
 					],
@@ -2363,7 +2363,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 56,
+							"line": 58,
 							"character": 12
 						}
 					],
@@ -2388,7 +2388,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 52,
+					"line": 54,
 					"character": 32
 				}
 			],
@@ -2420,7 +2420,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 43,
+							"line": 45,
 							"character": 9
 						}
 					],
@@ -2440,7 +2440,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 45,
+							"line": 47,
 							"character": 6
 						}
 					],
@@ -2469,7 +2469,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 47,
+							"line": 49,
 							"character": 8
 						}
 					],
@@ -2489,7 +2489,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 49,
+							"line": 51,
 							"character": 11
 						}
 					],
@@ -2514,7 +2514,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 41,
+					"line": 43,
 					"character": 29
 				}
 			]
@@ -2539,7 +2539,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 22,
+							"line": 23,
 							"character": 11
 						}
 					],
@@ -2570,7 +2570,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 23,
+							"line": 24,
 							"character": 14
 						}
 					],
@@ -2593,7 +2593,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 24,
+							"line": 25,
 							"character": 8
 						}
 					],
@@ -2617,7 +2617,7 @@
 			"sources": [
 				{
 					"fileName": "src/dapp/compat/singleSource.ts",
-					"line": 21,
+					"line": 22,
 					"character": 22
 				}
 			]
@@ -2642,7 +2642,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 16,
+							"line": 17,
 							"character": 9
 						}
 					],
@@ -2662,7 +2662,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 17,
+							"line": 18,
 							"character": 8
 						}
 					],
@@ -2690,7 +2690,7 @@
 										"sources": [
 											{
 												"fileName": "src/dapp/compat/singleSource.ts",
-												"line": 17,
+												"line": 18,
 												"character": 19
 											}
 										],
@@ -2712,7 +2712,7 @@
 								"sources": [
 									{
 										"fileName": "src/dapp/compat/singleSource.ts",
-										"line": 17,
+										"line": 18,
 										"character": 9
 									}
 								]
@@ -2731,7 +2731,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 18,
+							"line": 19,
 							"character": 6
 						}
 					],
@@ -2755,7 +2755,7 @@
 			"sources": [
 				{
 					"fileName": "src/dapp/compat/singleSource.ts",
-					"line": 15,
+					"line": 16,
 					"character": 29
 				}
 			]
@@ -2780,7 +2780,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 28,
+							"line": 29,
 							"character": 14
 						}
 					],
@@ -2801,7 +2801,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 105,
+							"line": 107,
 							"character": 10
 						}
 					],
@@ -2840,7 +2840,7 @@
 			"sources": [
 				{
 					"fileName": "src/dapp/compat/singleSource.ts",
-					"line": 27,
+					"line": 28,
 					"character": 22
 				}
 			],
@@ -2883,7 +2883,7 @@
 					"sources": [
 						{
 							"fileName": "src/dapp/compat/singleSource.ts",
-							"line": 10,
+							"line": 11,
 							"character": 11
 						}
 					],
@@ -2958,7 +2958,7 @@
 													"sources": [
 														{
 															"fileName": "src/dapp/compat/singleSource.ts",
-															"line": 10,
+															"line": 11,
 															"character": 17
 														}
 													]
@@ -3003,7 +3003,7 @@
 													"sources": [
 														{
 															"fileName": "src/dapp/compat/singleSource.ts",
-															"line": 11,
+															"line": 12,
 															"character": 15
 														}
 													]
@@ -3021,7 +3021,7 @@
 											"sources": [
 												{
 													"fileName": "src/dapp/compat/singleSource.ts",
-													"line": 10,
+													"line": 11,
 													"character": 40
 												}
 											]
@@ -3032,7 +3032,7 @@
 							"sources": [
 								{
 									"fileName": "src/dapp/compat/singleSource.ts",
-									"line": 10,
+									"line": 11,
 									"character": 12
 								}
 							]
@@ -3052,7 +3052,7 @@
 			"sources": [
 				{
 					"fileName": "src/dapp/compat/singleSource.ts",
-					"line": 9,
+					"line": 10,
 					"character": 20
 				}
 			]
@@ -3078,7 +3078,7 @@
 					"sources": [
 						{
 							"fileName": "src/inject/types.ts",
-							"line": 113,
+							"line": 115,
 							"character": 12
 						}
 					],
@@ -3100,7 +3100,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 112,
+					"line": 114,
 					"character": 36
 				}
 			]
@@ -3116,7 +3116,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 110,
+					"line": 112,
 					"character": 25
 				}
 			],
@@ -3137,7 +3137,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 108,
+					"line": 110,
 					"character": 29
 				}
 			],
@@ -3168,7 +3168,7 @@
 			"sources": [
 				{
 					"fileName": "src/inject/types.ts",
-					"line": 79,
+					"line": 81,
 					"character": 24
 				}
 			],
@@ -3912,7 +3912,7 @@
 										{
 											"fileName": "src/dapp/util.ts",
 											"line": 4,
-											"character": 50
+											"character": 48
 										}
 									]
 								}
@@ -4528,7 +4528,7 @@
 			"sources": [
 				{
 					"fileName": "src/dapp/compat/singleSource.ts",
-					"line": 78,
+					"line": 79,
 					"character": 40
 				}
 			]
@@ -4754,7 +4754,7 @@
 			"sources": [
 				{
 					"fileName": "src/dapp/compat/singleSource.ts",
-					"line": 42,
+					"line": 43,
 					"character": 27
 				}
 			]
@@ -4992,7 +4992,7 @@
 			"sources": [
 				{
 					"fileName": "src/dapp/compat/singleSource.ts",
-					"line": 32,
+					"line": 33,
 					"character": 26
 				}
 			]
