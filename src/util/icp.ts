@@ -2,7 +2,9 @@ import * as agent from '@dfinity/agent';
 const RAW_KEY_LENGTH = 65;
 const DER_PREFIX_HEX = '3056301006072a8648ce3d020106052b8104000a034200';
 const DER_PREFIX = Uint8Array.from(Buffer.from(DER_PREFIX_HEX, 'hex'));
+import { u8aToU8a } from '@polkadot/util';
 import elliptic from 'elliptic';
+import * as tweetnacl from 'tweetnacl';
 
 const secp256k1 = elliptic.ec('secp256k1');
 
@@ -56,4 +58,11 @@ export const getPrincipalFromPublicKey = (publicKey: string) => {
   const secp256k1PubKey = derEncode(agent.blobFromHex(publicKey));
   const auth = agent.Principal.selfAuthenticating(secp256k1PubKey);
   return auth;
+};
+
+export const signWithPrivateKey = (
+  message: Uint8Array | string,
+  privateKey: agent.BinaryBlob
+): Uint8Array => {
+  return tweetnacl.sign.detached(u8aToU8a(message), privateKey);
 };

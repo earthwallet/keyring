@@ -4,14 +4,16 @@ import {
 } from '@dfinity/rosetta-client';
 import Keyring from '@polkadot/keyring';
 import { u8aToHex } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { cryptoWaitReady, secp256k1Sign } from '@polkadot/util-crypto';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import elliptic from 'elliptic';
 import { publicToAddress } from 'ethereumjs-util';
 import HDKey from 'hdkey';
 import * as nacl from 'tweetnacl';
 
-import { getPrincipalFromPublicKey } from './ICPUtils';
+import type { KeyringPair } from '../types/index';
+import { getPrincipalFromPublicKey, signWithPrivateKey } from '../util/icp';
+
 import SLIP44 from './slip44';
 
 const secp256k1 = elliptic.ec('secp256k1');
@@ -122,36 +124,55 @@ export const createWallet = async (
   mnemonic: string,
   symbol: string,
   account?: number
-) => {
+): Promise<KeyringPair> => {
   const SLIP_ACCOUNT = account === undefined ? 0 : account;
   const SLIP_INDEX = getSlipFromSymbol(symbol).index; //defaults to ethereum
   const SLIP_PATH = `m/44'/${SLIP_INDEX}'/0'/0/${SLIP_ACCOUNT}`;
   //  const ICP_PATH = `m/44'/223'/0'`;
 
   switch (symbol) {
+    case 'DOT':
     case 'KSM': {
       await cryptoWaitReady();
       const keyring = new Keyring({ type: 'sr25519' });
-      keyring.setSS58Format(2);
-      const newPair = keyring.addFromUri(mnemonic);
+      if (symbol === 'KSM') {
+        keyring.setSS58Format(2);
+      }
+      const {
+        address,
+        publicKey,
+        meta,
+        isLocked,
+        type,
+        decodePkcs8,
+        encodePkcs8,
+        lock,
+        setMeta,
+        sign,
+        toJson,
+        unlock,
+        verify,
+        vrfSign,
+        vrfVerify,
+      } = keyring.addFromUri(mnemonic);
       return {
-        address: newPair.address,
-        publicKey: u8aToHex(newPair.publicKey),
-        type: 'sr25519',
+        address: address,
+        publicKey: u8aToHex(publicKey),
+        meta,
+        isLocked,
+        type,
+        decodePkcs8,
+        encodePkcs8,
+        lock,
+        setMeta,
+        sign,
+        toJson,
+        unlock,
+        verify,
+        vrfSign,
+        vrfVerify,
       };
     }
-    case 'DOT': {
-      await cryptoWaitReady();
-      const keyring = new Keyring({ type: 'sr25519' });
-      const newPair = keyring.addFromUri(mnemonic);
-      return {
-        address: newPair.address,
-        publicKey: u8aToHex(newPair.publicKey),
-        type: 'sr25519',
-      };
-    }
-    /* case 'DOT':
-      return encodeAddress(hexToU8a('0x' + publicKey), 0); */
     case 'ETH':
     case 'ICP': {
       const seed = mnemonicToSeedSync(mnemonic);
@@ -173,6 +194,12 @@ export const createWallet = async (
             : address_to_hex(
                 principal_id_to_address(getPrincipalFromPublicKey(publicKey))
               ),
+        sign:
+          symbol === 'ICP'
+            ? (message: string) =>
+                signWithPrivateKey(message, masterPrv.privateKey)
+            : (message: string) =>
+                secp256k1Sign(message, { secretKey: seed }, 'keccak'),
         type: 'ecdsa',
       };
     }
@@ -190,6 +217,7 @@ export const createWallet = async (
       return {
         publicKey: publicKey,
         address: addressBuffer.toString('hex'),
+        type: 'ecdsa',
       };
     }
   }
