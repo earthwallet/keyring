@@ -1,6 +1,6 @@
 {
   "name": "@earthwallet/sdk",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Your Keys to the New Internet",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -51,6 +51,7 @@
     "@polkadot/keyring": "^6.6.1",
     "@polkadot/util": "^6.6.1",
     "@polkadot/util-crypto": "^6.6.1",
+    "axios": "^0.21.1",
     "bip39": "^3.0.4",
     "crc-32": "^1.2.0",
     "elliptic": "^6.5.4",
@@ -60,9 +61,9 @@
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chrome": "^0.0.139",
     "@types/firefox-webext-browser": "^82.0.0",
-    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "ava": "^3.12.1",

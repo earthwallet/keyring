@@ -1,5 +1,8 @@
+import { Session } from '@dfinity/rosetta-client';
 import { u8aToHex } from '@polkadot/util';
 import test from 'ava';
+
+import { getBalance, getTransactions } from '../util/icp';
 
 import { createWallet } from './wallet';
 
@@ -22,6 +25,119 @@ test('create wallet for ICP', async (t) => {
       u8aToHex(signature),
       '0x47ae27c5a2ed5eabecd52d06def8009180fe1db952bc05eb78e7e18dd37465aa03e8abe1f393f4164be4989b805173b7e43e91b06bb2b2dd57b71289ef96340e'
     );
+    const session = new Session({
+      baseUrl: 'https://rosetta-api.internetcomputer.org',
+    });
+    const currency = await session.currency;
+    console.log(currency);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('balance for ICP address', async (t) => {
+  try {
+    const balance = await getBalance(
+      '07b1b5f1f023eaa457a6d63fe00cea8cae5c943461350de455cb2d1f3dec8992'
+    );
+    t.like(balance, {
+      balances: [
+        {
+          value: '10951000',
+          currency: {
+            symbol: 'ICP',
+            decimals: 8,
+          },
+        },
+      ],
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('transactions for ICP address', async (t) => {
+  try {
+    const balance = await getTransactions(
+      '07b1b5f1f023eaa457a6d63fe00cea8cae5c943461350de455cb2d1f3dec8992'
+    );
+    t.like(balance, {
+      transactions: [
+        {
+          block_identifier: {
+            index: 140946,
+            hash: 'f462f2fd58ddfd957def7991fab2a1404875f99c67389d67d48ff4f7bd49026c',
+          },
+          transaction: {
+            transaction_identifier: {
+              hash: 'd11b7b678638c34e67dfa35026ab35208860ef62da68ddaf5fc23e57d68b30e7',
+            },
+            operations: [
+              {
+                operation_identifier: {
+                  index: 0,
+                },
+                type: 'TRANSACTION',
+                status: 'COMPLETED',
+                account: {
+                  address:
+                    'd3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8',
+                },
+                amount: {
+                  value: '-10951000',
+                  currency: {
+                    symbol: 'ICP',
+                    decimals: 8,
+                  },
+                },
+              },
+              {
+                operation_identifier: {
+                  index: 1,
+                },
+                type: 'TRANSACTION',
+                status: 'COMPLETED',
+                account: {
+                  address:
+                    '07b1b5f1f023eaa457a6d63fe00cea8cae5c943461350de455cb2d1f3dec8992',
+                },
+                amount: {
+                  value: '10951000',
+                  currency: {
+                    symbol: 'ICP',
+                    decimals: 8,
+                  },
+                },
+              },
+              {
+                operation_identifier: {
+                  index: 2,
+                },
+                type: 'FEE',
+                status: 'COMPLETED',
+                account: {
+                  address:
+                    'd3e13d4777e22367532053190b6c6ccf57444a61337e996242b1abfb52cf92c8',
+                },
+                amount: {
+                  value: '-10000',
+                  currency: {
+                    symbol: 'ICP',
+                    decimals: 8,
+                  },
+                },
+              },
+            ],
+            metadata: {
+              block_height: 140946,
+              memo: 8313622071006371696,
+              timestamp: 1623151038000816251,
+            },
+          },
+        },
+      ],
+      total_count: 1,
+    });
   } catch (error) {
     console.log(error);
   }

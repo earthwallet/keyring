@@ -3,6 +3,7 @@ const RAW_KEY_LENGTH = 65;
 const DER_PREFIX_HEX = '3056301006072a8648ce3d020106052b8104000a034200';
 const DER_PREFIX = Uint8Array.from(Buffer.from(DER_PREFIX_HEX, 'hex'));
 import { u8aToU8a } from '@polkadot/util';
+import axios, { AxiosRequestConfig } from 'axios';
 import elliptic from 'elliptic';
 import * as tweetnacl from 'tweetnacl';
 
@@ -77,4 +78,70 @@ export const verifyWithPublicKey = (
     u8aToU8a(signature),
     publicKey
   );
+};
+
+export const getBalance = async (address) => {
+  let serverRes = {};
+
+  const data = {
+    network_identifier: {
+      blockchain: 'Internet Computer',
+      network: '00000000000000020101',
+    },
+    account_identifier: {
+      address: address,
+    },
+  };
+
+  const config: AxiosRequestConfig = {
+    method: 'post',
+    url: 'https://rosetta-api.internetcomputer.org/account/balance',
+    headers: {
+      accept: 'application/json, text/plain, */*',
+    },
+    data: data,
+  };
+
+  await axios(config)
+    .then(function (response) {
+      serverRes = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  return serverRes;
+};
+
+export const getTransactions = async (address) => {
+  let serverRes = {};
+
+  const data = {
+    network_identifier: {
+      blockchain: 'Internet Computer',
+      network: '00000000000000020101',
+    },
+    account_identifier: {
+      address: address,
+    },
+  };
+
+  const config: AxiosRequestConfig = {
+    method: 'post',
+    url: 'https://rosetta-api.internetcomputer.org/search/transactions',
+    headers: {
+      accept: 'application/json, text/plain, */*',
+    },
+    data: data,
+  };
+
+  await axios(config)
+    .then(function (response) {
+      serverRes = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  return serverRes;
 };
