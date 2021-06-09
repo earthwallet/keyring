@@ -1,3 +1,4 @@
+import { u8aToHex } from '@polkadot/util';
 import test from 'ava';
 
 import { createWallet } from './wallet';
@@ -8,6 +9,7 @@ test('create wallet for ICP', async (t) => {
       'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
       'ICP'
     );
+
     t.like(walletObj, {
       publicKey:
         '04931f4d17682b3dedbbd87d29d86040ee5f361a182045c3475ff2fc05af7e30a79f1040784655b226520dbb71aac3edc951cd50a64c138596ef746265e4cf122f',
@@ -15,6 +17,11 @@ test('create wallet for ICP', async (t) => {
         '02f2326544f2040d3985e31db5e7021402c541d3cde911cd20e951852ee4da47',
       type: 'ecdsa',
     });
+    const signature = walletObj.sign('signthis');
+    t.is(
+      u8aToHex(signature),
+      '0x47ae27c5a2ed5eabecd52d06def8009180fe1db952bc05eb78e7e18dd37465aa03e8abe1f393f4164be4989b805173b7e43e91b06bb2b2dd57b71289ef96340e'
+    );
   } catch (error) {
     console.log(error);
   }

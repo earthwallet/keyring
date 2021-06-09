@@ -62,7 +62,19 @@ export const getPrincipalFromPublicKey = (publicKey: string) => {
 
 export const signWithPrivateKey = (
   message: Uint8Array | string,
-  privateKey: agent.BinaryBlob
+  privateKey: Buffer
 ): Uint8Array => {
-  return tweetnacl.sign.detached(u8aToU8a(message), privateKey);
+  return tweetnacl.sign.detached(u8aToU8a(message), u8aToU8a(privateKey));
+};
+
+export const verifyWithPublicKey = (
+  message: Uint8Array | string,
+  signature: Uint8Array | string,
+  publicKey: Uint8Array
+): boolean => {
+  return tweetnacl.sign.detached.verify(
+    u8aToU8a(message),
+    u8aToU8a(signature),
+    publicKey
+  );
 };

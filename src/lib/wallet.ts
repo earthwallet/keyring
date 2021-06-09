@@ -196,8 +196,7 @@ export const createWallet = async (
               ),
         sign:
           symbol === 'ICP'
-            ? (message: string) =>
-                signWithPrivateKey(message, masterPrv.privateKey)
+            ? (message: string) => signWithPrivateKey(message, seed)
             : (message: string) =>
                 secp256k1Sign(message, { secretKey: seed }, 'keccak'),
         type: 'ecdsa',
