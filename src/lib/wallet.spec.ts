@@ -1,4 +1,3 @@
-import { Session } from '@dfinity/rosetta-client';
 import { u8aToHex } from '@polkadot/util';
 import test from 'ava';
 
@@ -25,11 +24,6 @@ test('create wallet for ICP', async (t) => {
       u8aToHex(signature),
       '0x47ae27c5a2ed5eabecd52d06def8009180fe1db952bc05eb78e7e18dd37465aa03e8abe1f393f4164be4989b805173b7e43e91b06bb2b2dd57b71289ef96340e'
     );
-    const session = new Session({
-      baseUrl: 'https://rosetta-api.internetcomputer.org',
-    });
-    const currency = await session.currency;
-    console.log(currency);
   } catch (error) {
     console.log(error);
   }
