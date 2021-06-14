@@ -143,18 +143,21 @@ export async function web3Accounts({
   const accounts: InjectedAccountWithMeta[] = [];
   const injected = await web3EnablePromise;
   const retrieved = await Promise.all(
-    injected.map(async ({ accounts, name: source }): Promise<
-      InjectedAccountWithMeta[]
-    > => {
-      try {
-        const list = await accounts.get();
+    injected.map(
+      async ({
+        accounts,
+        name: source,
+      }): Promise<InjectedAccountWithMeta[]> => {
+        try {
+          const list = await accounts.get();
 
-        return mapAccounts(source, list, ss58Format);
-      } catch (error) {
-        // cannot handle this one
-        return [];
+          return mapAccounts(source, list, ss58Format);
+        } catch (error) {
+          // cannot handle this one
+          return [];
+        }
       }
-    })
+    )
   );
 
   retrieved.forEach((result): void => {

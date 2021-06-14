@@ -1,10 +1,7 @@
 //import { blobFromBuffer } from '@dfinity/agent';
 //import { Bip39Ed25519KeyIdentity } from '@dfinity/authentication';
 import { Ed25519KeyIdentity } from '@dfinity/identity';
-import {
-  address_to_hex,
-  principal_id_to_address,
-} from '@dfinity/rosetta-client';
+import { address_to_hex } from '@dfinity/rosetta-client';
 import Keyring from '@polkadot/keyring';
 import { u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady, secp256k1Sign } from '@polkadot/util-crypto';
@@ -15,7 +12,9 @@ import { publicToAddress } from 'ethereumjs-util';
 import HDKey from 'hdkey';
 import * as nacl from 'tweetnacl';
 
+import 'isomorphic-fetch';
 import type { KeyringPair } from '../types/index';
+import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
 
@@ -214,6 +213,7 @@ export const createWallet = async (
       const keyPair = Ed25519KeyIdentity.generate(uintSeed);
 
       return {
+        toJSON: keyPair.toJSON,
         publicKey: keyPair.toJSON()[0],
         address: address_to_hex(
           principal_id_to_address(keyPair.getPrincipal())

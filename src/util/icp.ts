@@ -1,71 +1,18 @@
-import * as agent from '@dfinity/agent';
-const RAW_KEY_LENGTH = 65;
-const DER_PREFIX_HEX = '3056301006072a8648ce3d020106052b8104000a034200';
-const DER_PREFIX = Uint8Array.from(Buffer.from(DER_PREFIX_HEX, 'hex'));
-import { Ed25519KeyIdentity } from '@dfinity/identity';
+import { Actor, HttpAgent } from '@dfinity/agent';
 import { key_new, Session } from '@dfinity/rosetta-client';
 import { address_from_hex } from '@dfinity/rosetta-client';
+import { sha224 } from '@dfinity/rosetta-client/lib/hash';
 import { u8aToU8a } from '@polkadot/util';
 import axios, { AxiosRequestConfig } from 'axios';
-import { mnemonicToSeedSync } from 'bip39';
-import elliptic from 'elliptic';
 import * as tweetnacl from 'tweetnacl';
-import { SubtleCryptoFactory } from 'verifiablecredentials-crypto-sdk-typescript-plugin-factory';
-const subtle = SubtleCryptoFactory.create('SubtleCryptoNode');
 
-const secp256k1 = elliptic.ec('secp256k1');
+/* import agent from '@dfinity/agent';
+import { getCrc32 } from './crc';
+import { Secp256k1PublicKey } from './secp256k1pub';
+ */
+import ledger from './ledger';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
-export const derEncode = (publicKey: agent.BinaryBlob) => {
-  if (publicKey.byteLength !== RAW_KEY_LENGTH) {
-    const bl = publicKey.byteLength;
-    console.error(
-      `secp256k1 public key must be ${RAW_KEY_LENGTH} bytes long (is ${bl})`
-    );
-  }
-  const derPublicKey = Uint8Array.from([
-    ...DER_PREFIX,
-    ...new Uint8Array(publicKey),
-  ]);
-  return agent.derBlobFromBlob(agent.blobFromUint8Array(derPublicKey));
-};
-
-export const derDecode = (key: agent.BinaryBlob) => {
-  const expectedLength = DER_PREFIX.length + RAW_KEY_LENGTH;
-  if (key.byteLength !== expectedLength) {
-    const bl = key.byteLength;
-    console.error(
-      `secp256k1 DER-encoded public key must be ${expectedLength} bytes long (is ${bl})`
-    );
-  }
-  const rawKey = agent.blobFromUint8Array(key.subarray(DER_PREFIX.length));
-  if (!derEncode(rawKey).equals(key)) {
-    console.error(
-      'secp256k1 DER-encoded public key is invalid. A valid secp256k1 DER-encoded public key ' +
-        `must have the following prefix: ${DER_PREFIX}`
-    );
-  }
-  return rawKey;
-};
-
-export const getUncompressPublicKey = (publicKey: string): string => {
-  const ecKey = secp256k1.keyFromPublic(
-    publicKey.startsWith('0x') ? publicKey.slice(2) : publicKey,
-    'hex'
-  );
-  return ecKey.getPublic(false, 'hex');
-};
-
-/**
- * @function getPrincipalFromPublicKey
- * @param  {string} publicKey: uncompressed public key
- * @return {string} {principal text}
- */
-export const getPrincipalFromPublicKey = (publicKey: string) => {
-  const secp256k1PubKey = derEncode(agent.blobFromHex(publicKey));
-  const auth = agent.Principal.selfAuthenticating(secp256k1PubKey);
-  return auth;
-};
 
 export const signWithPrivateKey = (
   message: Uint8Array | string,
@@ -190,96 +137,61 @@ export const sendTransaction = async (src_private_key, dest_addr, amount) => {
   return submit_result;
 };
 
-/**
- * Create an Ed25519 based on a mnemonic phrase according to SLIP 0010:
- * https://github.com/satoshilabs/slips/blob/master/slip-0010.md
- *
- * NOTE: This method derives an identity even if the mnemonic is invalid. It's
- * the responsibility of the caller to validate the mnemonic before calling this method.
- *
- * @param mnemonic A BIP-39 mnemonic.
- * @param derivationPath an array that is always interpreted as a hardened path.
- * e.g. to generate m/44'/223’/0’/0’/0' the derivation path should be [44, 223, 0, 0, 0]
- * @param skipValidation if true, validation checks on the mnemonics are skipped.
- */
-export async function fromMnemonicWithoutValidation(
-  mnemonic: string,
-  derivationPath: number[] = []
-): Promise<Ed25519KeyIdentity> {
-  const seed = mnemonicToSeedSync(mnemonic);
-  return fromSeedWithSlip0010(seed, derivationPath);
-}
+const getSubAccountArray = (s) => {
+  return Array(28)
+    .fill(0)
+    .concat(to32bits(s ? s : 0));
+};
+const to32bits = (num) => {
+  const b = new ArrayBuffer(4);
+  new DataView(b).setUint32(0, num);
+  return Array.from(new Uint8Array(b));
+};
 
-/**
- * Create an Ed25519 according to SLIP 0010:
- * https://github.com/satoshilabs/slips/blob/master/slip-0010.md
- *
- * The derivation path is an array that is always interpreted as a hardened path.
- * e.g. to generate m/44'/223’/0’/0’/0' the derivation path should be [44, 223, 0, 0, 0]
- */
+export const sendICP = async (id, to_aid, from_sub, amount) => {
+  const agent = new HttpAgent({
+    host: 'https://boundary.ic0.app/',
+    identity: id,
+  });
+  const API = Actor.createActor(ledger, {
+    agent: agent,
+    canisterId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+  });
 
-const HARDENED = 0x80000000;
+  const args = {
+    to: to_aid,
+    fee: { e8s: 0.0001 * 100000000 },
+    memo: 0,
+    from_subaccount: [getSubAccountArray(from_sub)],
+    created_at_time: [],
+    amount: { e8s: amount * 100000000 },
+  };
+  const b = await API.send_dfx(args);
+  console.log(b, 'send');
+  return b;
+};
 
-export async function fromSeedWithSlip0010(
-  masterSeed: Uint8Array,
-  derivationPath: number[] = []
-): Promise<Ed25519KeyIdentity> {
-  let [slipSeed, chainCode] = await generateMasterKey(masterSeed);
-
-  for (let i = 0; i < derivationPath.length; i++) {
-    [slipSeed, chainCode] = await derive(
-      slipSeed,
-      chainCode,
-      derivationPath[i] | HARDENED
-    );
+export const utf8ToBytes = (str: string): Uint8Array => {
+  const isString = (obj: any): boolean => {
+    return obj === `${obj}`;
+  };
+  if (!isString(str)) {
+    throw new Error(`${str} is not string`);
   }
+  const arr = [];
+  for (let i = 0; i < str.length; i++) {
+    arr.push(str.charCodeAt(i));
+  }
+  return new Uint8Array(arr);
+};
 
-  return Ed25519KeyIdentity.generate(slipSeed);
-}
+export const SUB_ACCOUNT_ZERO = Buffer.alloc(32);
+export const ACCOUNT_DOMAIN_SEPERATOR = Buffer.from('\x0Aaccount-id');
 
-async function generateMasterKey(
-  seed: Uint8Array
-): Promise<[Uint8Array, Uint8Array]> {
-  const data = new TextEncoder().encode('ed25519 seed');
-  const algo: Algorithm = {
-    name: 'HMAC',
-    hash: { name: 'SHA-512' },
-  };
-  const key = await subtle.importKey('raw', data, algo, false, ['sign']);
-  const h = await subtle.sign(algo, key, seed);
-  const slipSeed = new Uint8Array(h.slice(0, 32));
-  const chainCode = new Uint8Array(h.slice(32));
-  return [slipSeed, chainCode];
-}
-
-async function derive(
-  parentKey: Uint8Array,
-  parentChaincode: Uint8Array,
-  i: number
-): Promise<[Uint8Array, Uint8Array]> {
-  // From the spec: Data = 0x00 || ser256(kpar) || ser32(i)
-  const data = new Uint8Array([0, ...parentKey, ...toBigEndianArray(i)]);
-  const algo: Algorithm = {
-    name: 'HMAC',
-    hash: { name: 'SHA-512' },
-  };
-  const key = await subtle.importKey('raw', parentChaincode, algo, false, [
-    'sign',
+export function principal_id_to_address(pid) {
+  return sha224([
+    ACCOUNT_DOMAIN_SEPERATOR,
+    pid.toUint8Array(),
+    SUB_ACCOUNT_ZERO,
   ]);
-
-  const h = await subtle.sign(algo, key, data.buffer);
-  const slipSeed = new Uint8Array(h.slice(0, 32));
-  const chainCode = new Uint8Array(h.slice(32));
-  return [slipSeed, chainCode];
-}
-
-// Converts a 32-bit unsigned integer to a big endian byte array.
-function toBigEndianArray(n: number): Uint8Array {
-  const byteArray = new Uint8Array([0, 0, 0, 0]);
-  for (let i = byteArray.length - 1; i >= 0; i--) {
-    const byte = n & 0xff;
-    byteArray[i] = byte;
-    n = (n - byte) / 256;
-  }
-  return byteArray;
 }

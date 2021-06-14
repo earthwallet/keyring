@@ -39,6 +39,9 @@ export interface KeyringPair$Json extends EncryptedJson {
   address: string;
   meta: KeyringPair$Meta;
 }
+
+export type JsonnableEd25519KeyIdentity = [string, string];
+
 export interface KeyringPair {
   readonly address: string;
   readonly meta?: KeyringPair$Meta;
@@ -52,6 +55,7 @@ export interface KeyringPair {
   setMeta?(meta: KeyringPair$Meta): void;
   sign?(message: string | Uint8Array, options?: SignOptions): Uint8Array;
   toJson?(passphrase?: string): KeyringPair$Json;
+  toJSON?(passphrase?: string): JsonnableEd25519KeyIdentity;
   unlock?(passphrase?: string): void;
   verify?(
     message: string | Uint8Array,

@@ -1,6 +1,6 @@
 {
   "name": "@earthwallet/sdk",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Your Keys to the New Internet",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -44,7 +44,7 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@dfinity/agent": "^0.8.9",
+    "@dfinity/agent": "^0.9.1",
     "@dfinity/authentication": "0.7.1",
     "@dfinity/candid": "^0.9.1",
     "@dfinity/identity": "^0.9.1",
@@ -63,6 +63,7 @@
     "elliptic": "^6.5.4",
     "ethereumjs-util": "^7.0.10",
     "hdkey": "^2.0.1",
+    "isomorphic-fetch": "^3.0.0",
     "json-bigint": "^1.0.0",
     "node-forge": "^0.10.0",
     "subtle-crypto": "^0.0.0",
