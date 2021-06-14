@@ -32,6 +32,7 @@
     "functional/no-let": 0,
     "functional/no-mixed-type": 0,
     "functional/prefer-readonly-type": 0,
+    "functional/no-loop-statement": 0,
     "functional/prefer-type-literal": 0,
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",

@@ -1,18 +1,21 @@
+//import { blobFromBuffer } from '@dfinity/agent';
+//import { Bip39Ed25519KeyIdentity } from '@dfinity/authentication';
+import { Ed25519KeyIdentity } from '@dfinity/identity';
 import {
   address_to_hex,
   principal_id_to_address,
 } from '@dfinity/rosetta-client';
 import Keyring from '@polkadot/keyring';
-import { u8aToHex } from '@polkadot/util';
+import { u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady, secp256k1Sign } from '@polkadot/util-crypto';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
+import { derivePath } from 'ed25519-hd-key';
 import elliptic from 'elliptic';
 import { publicToAddress } from 'ethereumjs-util';
 import HDKey from 'hdkey';
 import * as nacl from 'tweetnacl';
 
 import type { KeyringPair } from '../types/index';
-import { getPrincipalFromPublicKey, signWithPrivateKey } from '../util/icp';
 
 import SLIP44 from './slip44';
 
@@ -23,7 +26,6 @@ export const getPublicKeySecp256k1 = (privateKey, compress) => {
     privateKey.toLowerCase().replace('0x', ''),
     'hex'
   );
-
   return ecKey.getPublic(compress || false, 'hex');
 };
 
@@ -173,42 +175,64 @@ export const createWallet = async (
         vrfVerify,
       };
     }
-    case 'ETH':
-    case 'ICP': {
+    case 'ETH': {
       const seed = mnemonicToSeedSync(mnemonic);
       const node = HDKey.fromMasterSeed(seed);
-      const masterPrv = node.derive(SLIP_PATH);
+      const childNode = node.derive(SLIP_PATH);
+      const privateKey = childNode.privateKey.toString('hex');
 
-      const privateKey = masterPrv.privateKey.toString('hex');
       const publicKey = getPublicKeySecp256k1(privateKey, false);
-
       const publicKeyBuffer = Buffer.from(publicKey, 'hex');
+      /*    const iiPair2 = Ed25519KeyIdentity.fromKeyPair(
+        blobFromBuffer(publicKeyBuffer),
+        childNode.privateKey
+      ); */
+
+      /*   console.log(
+        iiPair2.getPrincipal().toString(),
+        address_to_hex(principal_id_to_address(iiPair2.getPrincipal()))
+      ); */
+
       const addressBuffer = publicToAddress(publicKeyBuffer, true);
 
-      masterPrv.wipePrivateData();
+      childNode.wipePrivateData();
       return {
         publicKey: publicKey,
-        address:
-          symbol === 'ETH'
-            ? '0x' + addressBuffer.toString('hex')
-            : address_to_hex(
-                principal_id_to_address(getPrincipalFromPublicKey(publicKey))
-              ),
-        sign:
-          symbol === 'ICP'
-            ? (message: string) => signWithPrivateKey(message, seed)
-            : (message: string) =>
-                secp256k1Sign(message, { secretKey: seed }, 'keccak'),
+        address: '0x' + addressBuffer.toString('hex'),
+        sign: (message: string) =>
+          secp256k1Sign(message, { secretKey: seed }, 'keccak'),
         type: 'ecdsa',
+      };
+    }
+
+    case 'ICP': {
+      const seed = mnemonicToSeedSync(mnemonic);
+
+      const ICP_SLIP_PATH = `m/44'/223'/0'/0'/${SLIP_ACCOUNT}'`;
+      const { key: privateKey } = derivePath(`${ICP_SLIP_PATH}`, seed as any);
+      const uintSeed = Uint8Array.from(privateKey);
+      const keyPair = Ed25519KeyIdentity.generate(uintSeed);
+
+      return {
+        publicKey: keyPair.toJSON()[0],
+        address: address_to_hex(
+          principal_id_to_address(keyPair.getPrincipal())
+        ),
+        sign: (message: string) =>
+          nacl.sign.detached(
+            u8aToU8a(message),
+            u8aToU8a('0x' + keyPair.toJSON()[1])
+          ),
+        type: 'ed25519',
       };
     }
 
     default: {
       const seed = mnemonicToSeedSync(mnemonic);
       const node = HDKey.fromMasterSeed(seed);
-      const masterPrv = node.derive(SLIP_PATH);
+      const childNode = node.derive(SLIP_PATH);
 
-      const privateKey = masterPrv.privateKey.toString('hex');
+      const privateKey = childNode.privateKey.toString('hex');
       const publicKey = getPublicKeySecp256k1(privateKey, false);
 
       const publicKeyBuffer = Buffer.from(publicKey, 'hex');

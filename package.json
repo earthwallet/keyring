@@ -45,7 +45,12 @@
   },
   "dependencies": {
     "@dfinity/agent": "^0.8.9",
-    "@dfinity/rosetta-client": "^0.5.1",
+    "@dfinity/authentication": "0.7.1",
+    "@dfinity/candid": "^0.9.1",
+    "@dfinity/identity": "^0.9.1",
+    "@dfinity/principal": "^0.9.1",
+    "@dfinity/rosetta-client": "^0.5.2",
+    "@ethersproject/bignumber": "^5.3.0",
     "@metamask/slip44": "^1.0.0",
     "@polkadot/api": "^4.12.1",
     "@polkadot/keyring": "^6.6.1",
@@ -54,10 +59,16 @@
     "axios": "^0.21.1",
     "bip39": "^3.0.4",
     "crc-32": "^1.2.0",
+    "ed25519-hd-key": "^1.2.0",
     "elliptic": "^6.5.4",
     "ethereumjs-util": "^7.0.10",
     "hdkey": "^2.0.1",
-    "tweetnacl": "^1.0.3"
+    "json-bigint": "^1.0.0",
+    "node-forge": "^0.10.0",
+    "subtle-crypto": "^0.0.0",
+    "tweetnacl": "^1.0.3",
+    "verifiablecredentials-crypto-sdk-typescript-plugin": "^1.1.11",
+    "verifiablecredentials-crypto-sdk-typescript-plugin-factory": "^1.1.11"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
