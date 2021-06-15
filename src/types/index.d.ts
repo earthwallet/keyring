@@ -48,6 +48,7 @@ export interface KeyringPair {
   readonly isLocked?: boolean;
   readonly publicKey: string;
   readonly type: KeypairType;
+  identity?: any;
   decodePkcs8?(passphrase?: string, encoded?: Uint8Array): void;
   derive?(suri: string, meta?: KeyringPair$Meta): KeyringPair;
   encodePkcs8?(passphrase?: string): Uint8Array;

@@ -213,7 +213,7 @@ export const createWallet = async (
       const keyPair = Ed25519KeyIdentity.generate(uintSeed);
 
       return {
-        toJSON: keyPair.toJSON,
+        identity: keyPair,
         publicKey: keyPair.toJSON()[0],
         address: address_to_hex(
           principal_id_to_address(keyPair.getPrincipal())
