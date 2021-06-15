@@ -68,6 +68,8 @@
 					<h1>Earth Wallet SDK</h1>
 				</a>
 				<p>Your keys to Web3.0. See the full docs <a href="https://earthwallet.github.io/sdk/">here</a>.</p>
+				<p>Create Identity with <code>ICP</code>, send and receive <code>ICP</code>.</p>
+				<p><img src="HDWallets.png" alt="HDWallets"></p>
 				<a href="#run-tests" id="run-tests" style="color: inherit; text-decoration: none;">
 					<h2>Run Tests</h2>
 				</a>
@@ -161,13 +163,10 @@
 						<a href="globals.html#unsubcall" class="tsd-kind-icon">Unsubcall</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#der_prefix" class="tsd-kind-icon">DER_<wbr>PREFIX</a>
+						<a href="globals.html#account_domain_seperator" class="tsd-kind-icon">ACCOUNT_<wbr>DOMAIN_<wbr>SEPERATOR</a>
 					</li>
 					<li class=" tsd-kind-variable">
-						<a href="globals.html#der_prefix_hex" class="tsd-kind-icon">DER_<wbr>PREFIX_<wbr>HEX</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#raw_key_length" class="tsd-kind-icon">RAW_<wbr>KEY_<wbr>LENGTH</a>
+						<a href="globals.html#sub_account_zero" class="tsd-kind-icon">SUB_<wbr>ACCOUNT_<wbr>ZERO</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#extension" class="tsd-kind-icon">extension</a>
@@ -187,20 +186,11 @@
 					<li class=" tsd-kind-function">
 						<a href="globals.html#createwallet" class="tsd-kind-icon">create<wbr>Wallet</a>
 					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#derdecode" class="tsd-kind-icon">der<wbr>Decode</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#derencode" class="tsd-kind-icon">der<wbr>Encode</a>
-					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#documentreadypromise" class="tsd-kind-icon">document<wbr>Ready<wbr>Promise</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getbalance" class="tsd-kind-icon">get<wbr>Balance</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getprincipalfrompublickey" class="tsd-kind-icon">get<wbr>Principal<wbr>From<wbr>Public<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getpublickeyed25519" class="tsd-kind-icon">get<wbr>Public<wbr>Key<wbr>Ed25519</a>
@@ -212,13 +202,16 @@
 						<a href="globals.html#getslipfromsymbol" class="tsd-kind-icon">get<wbr>Slip<wbr>From<wbr>Symbol</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getsubaccountarray" class="tsd-kind-icon">get<wbr>Sub<wbr>Account<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#gettransactions" class="tsd-kind-icon">get<wbr>Transactions</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getuncompresspublickey" class="tsd-kind-icon">get<wbr>Uncompress<wbr>Public<wbr>Key</a>
+						<a href="globals.html#getwindowextensions" class="tsd-kind-icon">get<wbr>Window<wbr>Extensions</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getwindowextensions" class="tsd-kind-icon">get<wbr>Window<wbr>Extensions</a>
+						<a href="globals.html#init" class="tsd-kind-icon">init</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#initcompat" class="tsd-kind-icon">init<wbr>Compat</a>
@@ -239,13 +232,28 @@
 						<a href="globals.html#newmnemonic" class="tsd-kind-icon">new<wbr>Mnemonic</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#principal_id_to_address" class="tsd-kind-icon">principal_<wbr>id_<wbr>to_<wbr>address</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sendicp" class="tsd-kind-icon">sendICP</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sendtransaction" class="tsd-kind-icon">send<wbr>Transaction</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#signwithprivatekey" class="tsd-kind-icon">sign<wbr>With<wbr>Private<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#throwerror" class="tsd-kind-icon">throw<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#to32bits" class="tsd-kind-icon">to32bits</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#transformaccounts" class="tsd-kind-icon">transform<wbr>Accounts</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#utf8tobytes" class="tsd-kind-icon">utf8<wbr>ToBytes</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#verifywithpublickey" class="tsd-kind-icon">verify<wbr>With<wbr>Public<wbr>Key</a>
