@@ -56,7 +56,7 @@ test('balance for ICP address', async (t) => {
     t.like(balance, {
       balances: [
         {
-          value: '610921000',
+          value: '609011000',
           currency: {
             symbol: 'ICP',
             decimals: 8,
