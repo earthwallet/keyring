@@ -167,7 +167,6 @@ export const sendICP = async (id, to_aid, from_sub, amount) => {
     amount: { e8s: amount * 100000000 },
   };
   const b = await API.send_dfx(args);
-  console.log(b, 'send');
   return b;
 };
 
