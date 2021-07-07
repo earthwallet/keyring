@@ -187,10 +187,41 @@ export const utf8ToBytes = (str: string): Uint8Array => {
 export const SUB_ACCOUNT_ZERO = Buffer.alloc(32);
 export const ACCOUNT_DOMAIN_SEPERATOR = Buffer.from('\x0Aaccount-id');
 
-export function principal_id_to_address(pid) {
+export const principal_id_to_address = (pid) => {
   return sha224([
     ACCOUNT_DOMAIN_SEPERATOR,
     pid.toUint8Array(),
     SUB_ACCOUNT_ZERO,
   ]);
-}
+};
+
+export const indexToHash = (index) => {
+  const fetchHeaders = new Headers();
+  fetchHeaders.append('cache-control', 'no-cache');
+  fetchHeaders.append('accept', 'application/json, text/plain, */*');
+  fetchHeaders.append('content-type', 'application/json;charset=UTF-8');
+
+  const raw = {
+    network_identifier: {
+      blockchain: 'Internet Computer',
+      network: '00000000000000020101',
+    },
+    block_identifier: { index: index },
+  };
+  const requestOptions: RequestInit = {
+    method: 'POST',
+    headers: fetchHeaders,
+    body: JSON.stringify(raw),
+    redirect: 'follow',
+  };
+
+  const hash = fetch(
+    'https://rosetta-api.internetcomputer.org/block',
+    requestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log('error', error));
+
+  return hash;
+};
