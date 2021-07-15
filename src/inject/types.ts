@@ -24,6 +24,7 @@ export interface InjectedAccountWithMeta {
     genesisHash?: string | null;
     name?: string;
     source: string;
+    symbol: string;
   };
 }
 
@@ -55,7 +56,7 @@ export interface MetadataDefBase {
   chain: string;
   genesisHash: string;
   icon: string;
-  ss58Format: number;
+  symbol?: string;
 }
 
 export interface MetadataDef extends MetadataDefBase {
@@ -112,5 +113,5 @@ export type InjectedExtension = InjectedExtensionInfo & Injected;
 export type InjectOptions = InjectedExtensionInfo;
 
 export interface Web3AccountsOptions {
-  ss58Format?: number;
+  symbol?: string;
 }

@@ -1,8 +1,5 @@
-// Copyright 2021 @earthwallet/extension-dapp authors & contributors
+// Copyright 2021 @earthwallet/sdk/dapp authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { u8aEq } from '@polkadot/util';
-import { decodeAddress } from '@polkadot/util-crypto';
 
 import type {
   Injected,
@@ -41,14 +38,12 @@ function throwError(method: string): never {
 function mapAccounts(
   source: string,
   list: InjectedAccount[],
-  ss58Format?: number
+  symbol?: string
 ): InjectedAccountWithMeta[] {
   return list.map(({ address, genesisHash, name }): InjectedAccountWithMeta => {
-    //const encodedAddress = encodeAddress(decodeAddress(address), ss58Format);
-    console.log('ss58Format', ss58Format);
     return {
       address: address,
-      meta: { genesisHash, name, source },
+      meta: { genesisHash, name, source, symbol },
     };
   });
 }
@@ -134,7 +129,7 @@ export function web3Enable(originName: string): Promise<InjectedExtension[]> {
 
 // retrieve all the accounts accross all providers
 export async function web3Accounts({
-  ss58Format,
+  symbol,
 }: Web3AccountsOptions = {}): Promise<InjectedAccountWithMeta[]> {
   if (!web3EnablePromise) {
     return throwError('web3Accounts');
@@ -151,7 +146,7 @@ export async function web3Accounts({
         try {
           const list = await accounts.get();
 
-          return mapAccounts(source, list, ss58Format);
+          return mapAccounts(source, list, symbol);
         } catch (error) {
           // cannot handle this one
           return [];
@@ -177,7 +172,7 @@ export async function web3Accounts({
 
 export async function web3AccountsSubscribe(
   cb: (accounts: InjectedAccountWithMeta[]) => void | Promise<void>,
-  { ss58Format }: Web3AccountsOptions = {}
+  { symbol }: Web3AccountsOptions = {}
 ): Promise<Unsubcall> {
   if (!web3EnablePromise) {
     return throwError('web3AccountsSubscribe');
@@ -192,7 +187,7 @@ export async function web3AccountsSubscribe(
           result: InjectedAccountWithMeta[],
           [source, list]
         ): InjectedAccountWithMeta[] => {
-          result.push(...mapAccounts(source, list, ss58Format));
+          result.push(...mapAccounts(source, list, symbol));
 
           return result;
         },
@@ -247,11 +242,7 @@ export async function web3FromAddress(
   let found: InjectedAccountWithMeta | undefined;
 
   if (address) {
-    const accountU8a = decodeAddress(address);
-
-    found = accounts.find((account): boolean =>
-      u8aEq(decodeAddress(account.address), accountU8a)
-    );
+    found = accounts.find((account): boolean => account.address === address);
   }
 
   if (!found) {

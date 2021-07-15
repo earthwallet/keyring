@@ -1,4 +1,4 @@
-// Copyright 2021 @earthwallet/extension-dapp authors & contributors
+// Copyright 2021 @earthwallet/sdk/dapp authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export function documentReadyPromise<T>(creator: () => Promise<T>): Promise<T> {

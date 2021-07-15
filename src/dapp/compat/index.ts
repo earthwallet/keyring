@@ -1,4 +1,4 @@
-// Copyright 2021 @earthwallet/extension-dapp authors & contributors
+// Copyright 2021 @earthwallet/sdk/dapp authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import singleSource from './singleSource';

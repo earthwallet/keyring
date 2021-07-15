@@ -13,7 +13,7 @@ import HDKey from 'hdkey';
 import * as nacl from 'tweetnacl';
 
 import 'isomorphic-fetch';
-import type { KeyringPair } from '../types/index';
+import type { EarthKeyringPair } from '../types/index';
 import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
@@ -125,7 +125,7 @@ export const createWallet = async (
   mnemonic: string,
   symbol: string,
   account?: number
-): Promise<KeyringPair> => {
+): Promise<EarthKeyringPair> => {
   const SLIP_ACCOUNT = account === undefined ? 0 : account;
   const SLIP_INDEX = getSlipFromSymbol(symbol).index; //defaults to ethereum
   const SLIP_PATH = `m/44'/${SLIP_INDEX}'/0'/0/${SLIP_ACCOUNT}`;

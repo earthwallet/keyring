@@ -30,32 +30,32 @@ export interface EncryptedJson {
   encoding: EncryptedJsonDescriptor;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type KeyringPair$Meta = Record<string, unknown>;
+export type EarthKeyringPair$Meta = Record<string, unknown>;
 export type KeypairType = 'ed25519' | 'sr25519' | 'ecdsa' | 'ethereum';
 export interface SignOptions {
   withType?: boolean;
 }
-export interface KeyringPair$Json extends EncryptedJson {
+export interface EarthKeyringPair$Json extends EncryptedJson {
   address: string;
-  meta: KeyringPair$Meta;
+  meta: EarthKeyringPair$Meta;
 }
 
 export type JsonnableEd25519KeyIdentity = [string, string];
 
-export interface KeyringPair {
+export interface EarthKeyringPair {
   readonly address: string;
-  readonly meta?: KeyringPair$Meta;
+  readonly meta?: EarthKeyringPair$Meta;
   readonly isLocked?: boolean;
   readonly publicKey: string;
   readonly type: KeypairType;
   identity?: any;
   decodePkcs8?(passphrase?: string, encoded?: Uint8Array): void;
-  derive?(suri: string, meta?: KeyringPair$Meta): KeyringPair;
+  derive?(suri: string, meta?: EarthKeyringPair$Meta): EarthKeyringPair;
   encodePkcs8?(passphrase?: string): Uint8Array;
   lock?(): void;
-  setMeta?(meta: KeyringPair$Meta): void;
+  setMeta?(meta: EarthKeyringPair$Meta): void;
   sign?(message: string | Uint8Array, options?: SignOptions): Uint8Array;
-  toJson?(passphrase?: string): KeyringPair$Json;
+  toJson?(passphrase?: string): EarthKeyringPair$Json;
   toJSON?(passphrase?: string): JsonnableEd25519KeyIdentity;
   unlock?(passphrase?: string): void;
   verify?(
