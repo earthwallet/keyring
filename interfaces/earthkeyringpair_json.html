@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SingleWindow | @earthwallet/sdk</title>
+	<title>EarthKeyringPair$Json | @earthwallet/sdk</title>
 	<meta name="description" content="Documentation for @earthwallet/sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="singlewindow.html">SingleWindow</a>
+					<a href="earthkeyringpair_json.html">EarthKeyringPair$Json</a>
 				</li>
 			</ul>
-			<h1>Interface SingleWindow</h1>
+			<h1>Interface EarthKeyringPair$Json</h1>
 		</div>
 	</div>
 </header>
@@ -70,10 +70,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="injectedwindow.html" class="tsd-signature-type">InjectedWindow</a>
+						<a href="encryptedjson.html" class="tsd-signature-type">EncryptedJson</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">SingleWindow</span>
+								<span class="target">EarthKeyringPair$Json</span>
 							</li>
 						</ul>
 					</li>
@@ -86,8 +86,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="singlewindow.html#singlesource" class="tsd-kind-icon">Single<wbr>Source</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="singlewindow.html#initweb3" class="tsd-kind-icon">init<wbr>Web3</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="earthkeyringpair_json.html#address" class="tsd-kind-icon">address</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="earthkeyringpair_json.html#encoded" class="tsd-kind-icon">encoded</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="earthkeyringpair_json.html#encoding" class="tsd-kind-icon">encoding</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="earthkeyringpair_json.html#meta" class="tsd-kind-icon">meta</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,23 +98,44 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="singlesource" class="tsd-anchor"></a>
-					<h3>Single<wbr>Source</h3>
-					<div class="tsd-signature tsd-kind-icon">Single<wbr>Source<span class="tsd-signature-symbol">:</span> <a href="singlesource.html" class="tsd-signature-type">SingleSource</a></div>
+					<a name="address" class="tsd-anchor"></a>
+					<h3>address</h3>
+					<div class="tsd-signature tsd-kind-icon">address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/3ea771d/src/dapp/compat/singleSource.ts#L29">src/dapp/compat/singleSource.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/3ea771d/src/types/index.ts#L39">src/types/index.ts:39</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="initweb3" class="tsd-anchor"></a>
-					<h3>init<wbr>Web3</h3>
-					<div class="tsd-signature tsd-kind-icon">init<wbr>Web3<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="injectedwindowprovider.html" class="tsd-signature-type">InjectedWindowProvider</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="encoded" class="tsd-anchor"></a>
+					<h3>encoded</h3>
+					<div class="tsd-signature tsd-kind-icon">encoded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="injectedwindow.html">InjectedWindow</a>.<a href="injectedwindow.html#initweb3">initWeb3</a></p>
+						<p>Inherited from <a href="encryptedjson.html">EncryptedJson</a>.<a href="encryptedjson.html#encoded">encoded</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/3ea771d/src/inject/types.ts#L108">src/inject/types.ts:108</a></li>
+							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/3ea771d/src/types/index.ts#L29">src/types/index.ts:29</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="encoding" class="tsd-anchor"></a>
+					<h3>encoding</h3>
+					<div class="tsd-signature tsd-kind-icon">encoding<span class="tsd-signature-symbol">:</span> <a href="encryptedjsondescriptor.html" class="tsd-signature-type">EncryptedJsonDescriptor</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="encryptedjson.html">EncryptedJson</a>.<a href="encryptedjson.html#encoding">encoding</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/3ea771d/src/types/index.ts#L30">src/types/index.ts:30</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="meta" class="tsd-anchor"></a>
+					<h3>meta</h3>
+					<div class="tsd-signature tsd-kind-icon">meta<span class="tsd-signature-symbol">:</span> <a href="../globals.html#earthkeyringpair_meta" class="tsd-signature-type">EarthKeyringPair$Meta</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/3ea771d/src/types/index.ts#L40">src/types/index.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -131,13 +154,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="singlewindow.html" class="tsd-kind-icon">Single<wbr>Window</a>
+						<a href="earthkeyringpair_json.html" class="tsd-kind-icon">Earth<wbr>Keyring<wbr>Pair$<wbr>Json</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="singlewindow.html#singlesource" class="tsd-kind-icon">Single<wbr>Source</a>
+								<a href="earthkeyringpair_json.html#address" class="tsd-kind-icon">address</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="singlewindow.html#initweb3" class="tsd-kind-icon">init<wbr>Web3</a>
+								<a href="earthkeyringpair_json.html#encoded" class="tsd-kind-icon">encoded</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="earthkeyringpair_json.html#encoding" class="tsd-kind-icon">encoding</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="earthkeyringpair_json.html#meta" class="tsd-kind-icon">meta</a>
 							</li>
 						</ul>
 					</li>
