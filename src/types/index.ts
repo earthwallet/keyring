@@ -35,7 +35,7 @@ export type KeypairType = 'ed25519' | 'sr25519' | 'ecdsa' | 'ethereum';
 export interface SignOptions {
   withType?: boolean;
 }
-export interface EarthKeyringPair$Json extends EncryptedJson {
+export interface EarthKeyringPair$Json extends Partial<EncryptedJson> {
   address: string;
   meta: EarthKeyringPair$Meta;
 }
