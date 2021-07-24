@@ -46,7 +46,8 @@ export interface EarthKeyringPair {
   readonly address: string;
   readonly meta?: EarthKeyringPair$Meta;
   readonly isLocked?: boolean;
-  readonly publicKey: string;
+  readonly publicKey?: string;
+  readonly desc?: string;
   readonly type: KeypairType;
   identity?: any;
   decodePkcs8?(passphrase?: string, encoded?: Uint8Array): void;

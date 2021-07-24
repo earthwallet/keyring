@@ -4,7 +4,16 @@ import { Ed25519KeyIdentity } from '@dfinity/identity';
 import { address_to_hex } from '@dfinity/rosetta-client';
 import Keyring from '@polkadot/keyring';
 import { u8aToHex, u8aToU8a } from '@polkadot/util';
-import { cryptoWaitReady, secp256k1Sign } from '@polkadot/util-crypto';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { Client as bnbClient } from '@xchainjs/xchain-binance';
+import { Client as btcClient } from '@xchainjs/xchain-bitcoin';
+import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
+
+import { Network } from '@xchainjs/xchain-client';
+import { Client as cosmosClient } from '@xchainjs/xchain-cosmos';
+import { Client as ethClient } from '@xchainjs/xchain-ethereum';
+import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
+import { Client as thorClient } from '@xchainjs/xchain-thorchain';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import { derivePath } from 'ed25519-hd-key';
 import elliptic from 'elliptic';
@@ -18,7 +27,7 @@ import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
 
-const secp256k1 = elliptic.ec('secp256k1');
+const secp256k1 = new elliptic.ec('secp256k1');
 
 export const getPublicKeySecp256k1 = (privateKey, compress) => {
   const ecKey = secp256k1.keyFromPrivate(
@@ -26,18 +35,6 @@ export const getPublicKeySecp256k1 = (privateKey, compress) => {
     'hex'
   );
   return ecKey.getPublic(compress || false, 'hex');
-};
-
-export const getPublicKeyEd25519 = (
-  privateKey: Buffer,
-  withZeroByte = true
-): Buffer => {
-  const keyPair = nacl.sign.keyPair.fromSeed(privateKey);
-  const signPk = keyPair.secretKey.subarray(32);
-  const zero = Buffer.alloc(1, 0);
-  return withZeroByte
-    ? Buffer.concat([zero, Buffer.from(signPk)])
-    : Buffer.from(signPk);
 };
 
 /**
@@ -174,36 +171,105 @@ export const createWallet = async (
         vrfVerify,
       };
     }
-    case 'ETH': {
-      const seed = mnemonicToSeedSync(mnemonic);
-      const node = HDKey.fromMasterSeed(seed);
-      const childNode = node.derive(SLIP_PATH);
-      const privateKey = childNode.privateKey.toString('hex');
 
-      const publicKey = getPublicKeySecp256k1(privateKey, false);
-      const publicKeyBuffer = Buffer.from(publicKey, 'hex');
-      /*    const iiPair2 = Ed25519KeyIdentity.fromKeyPair(
-        blobFromBuffer(publicKeyBuffer),
-        childNode.privateKey
-      ); */
+    case 'BTC': {
+      const _btcClient = new btcClient({
+        network: 'mainnet' as Network,
+        phrase: mnemonic,
+        sochainUrl: 'https://sochain.com/api/v2',
+      });
 
-      /*   console.log(
-        iiPair2.getPrincipal().toString(),
-        address_to_hex(principal_id_to_address(iiPair2.getPrincipal()))
-      ); */
+      const address = _btcClient.getAddress(account);
 
-      const addressBuffer = publicToAddress(publicKeyBuffer, true);
-
-      childNode.wipePrivateData();
       return {
-        publicKey: publicKey,
-        address: '0x' + addressBuffer.toString('hex'),
-        sign: (message: string) =>
-          secp256k1Sign(message, { secretKey: seed }, 'keccak'),
+        address: address,
+        desc: 'bech32 address',
+        type: 'ecdsa',
+      };
+    }
+    case 'BCH': {
+      const _bchClient = new bchClient({
+        network: 'mainnet' as Network,
+        phrase: mnemonic,
+      });
+
+      const address = _bchClient.getAddress(account);
+
+      return {
+        address: address,
+        type: 'ecdsa',
+      };
+    }
+    case 'ATOM': {
+      const _cosmosClient = new cosmosClient({
+        network: 'mainnet' as Network,
+        phrase: mnemonic,
+      });
+
+      const address = _cosmosClient.getAddress(account);
+
+      return {
+        address: address,
+        type: 'ecdsa',
+      };
+    }
+    case 'RUNE': {
+      const _thorClient = new thorClient({
+        network: 'mainnet' as Network,
+        phrase: mnemonic,
+      });
+
+      const address = _thorClient.getAddress(account);
+
+      return {
+        address: address,
+        type: 'ecdsa',
+      };
+    }
+    case 'ETH': {
+      const _ethClient = new ethClient({
+        network: 'mainnet' as Network,
+        phrase: mnemonic,
+        ethplorerUrl: 'https://api.ethplorer.io',
+      });
+
+      const address = _ethClient.getAddress(account);
+
+      return {
+        address: address,
         type: 'ecdsa',
       };
     }
 
+    case 'BNB': {
+      const _bnbClient = new bnbClient({
+        network: 'mainnet' as Network,
+        phrase: mnemonic,
+      });
+
+      const address = _bnbClient.getAddress(account);
+
+      return {
+        address: address,
+        desc: 'Binance chain network address',
+        type: 'ecdsa',
+      };
+    }
+
+    case 'LTC': {
+      const _ltcClient = new ltcClient({
+        network: 'mainnet' as Network,
+        phrase: mnemonic,
+      });
+
+      const address = _ltcClient.getAddress(account);
+
+      return {
+        address: address,
+        desc: 'bech32 address',
+        type: 'ecdsa',
+      };
+    }
     case 'ICP': {
       const seed = mnemonicToSeedSync(mnemonic);
 

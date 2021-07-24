@@ -163,9 +163,110 @@ test('create wallet for ETH', async (t) => {
       'ETH'
     );
     t.like(walletObj, {
-      publicKey:
-        '0475aa060fdb2433f3b04d0a208e745463792047684608959cf6f47a08daba9de08a1f06ee6b3d747eb37210e0d4309284cc7f528025414929d7c90d6607b95314',
       address: '0x29bc7f4bfc7301b3ddb5c9c4348360fc0ad52ca8',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// can be tested manually from  https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp/related
+
+test('create wallet for BNB', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'BNB'
+    );
+    t.like(walletObj, {
+      address: 'bnb17vszy3374ucgylh9utt0n53a020wsqn885nz36',
+      desc: 'Binance chain network address',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for BTC', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'BTC'
+    );
+
+    //legacy address - 1d9d48c1f990365165508fa93e16a295fc7699d6
+    t.like(walletObj, {
+      address: 'bc1qrkw53s0ejqm9ze2s375nu94zjh78dxwkuuas35',
+      type: 'ecdsa',
+      desc: 'bech32 address',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for LTC', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'LTC'
+    );
+    t.like(walletObj, {
+      address: 'ltc1ql8lzfwvetxc4f8auaymrw2px43n4qx8c7wrr98',
+      desc: 'bech32 address',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for BCH', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'BCH'
+    );
+
+    //can be validated from https://iancoleman.io/bip39/
+    t.like(walletObj, {
+      address: 'qqp5y90849ttaty408kmzzl5qgf3e7plfv4prx08ls',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for ATOM', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'ATOM'
+    );
+
+    //can be validated from https://iancoleman.io/bip39/
+    t.like(walletObj, {
+      address: 'cosmos18duw95nsvazj3v77w57j2ephmcgu89aw36483e',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for RUNE', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'RUNE'
+    );
+
+    //can be validated from https://iancoleman.io/bip39/
+    t.like(walletObj, {
+      address: 'thor1srjmaduh33c627uryvc6qw4ek7rl0zf96n5yf7',
       type: 'ecdsa',
     });
   } catch (error) {
