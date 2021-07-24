@@ -8,7 +8,6 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { Client as bnbClient } from '@xchainjs/xchain-binance';
 import { Client as btcClient } from '@xchainjs/xchain-bitcoin';
 import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
-
 import { Network } from '@xchainjs/xchain-client';
 import { Client as cosmosClient } from '@xchainjs/xchain-cosmos';
 import { Client as ethClient } from '@xchainjs/xchain-ethereum';
