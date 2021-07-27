@@ -21,7 +21,7 @@ import HDKey from 'hdkey';
 import * as nacl from 'tweetnacl';
 
 import 'isomorphic-fetch';
-import type { EarthKeyringPair } from '../types/index';
+import type { EarthKeyringPair } from '../types';
 import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';

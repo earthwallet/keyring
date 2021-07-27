@@ -77,3 +77,12 @@ export interface EarthKeyringPair {
     extra?: string | Uint8Array
   ): boolean;
 }
+
+export interface EarthBalance {
+  txns?: number;
+  value: number;
+  currency: {
+    symbol: string;
+    decimals: number;
+  };
+}

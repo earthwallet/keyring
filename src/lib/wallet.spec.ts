@@ -1,8 +1,6 @@
 import { u8aToHex } from '@polkadot/util';
 import test from 'ava';
 
-import { getBalance } from '../util/icp';
-
 import { createWallet } from './wallet';
 
 test('create wallet for ICP', async (t) => {
@@ -42,27 +40,6 @@ test('create wallet for ICP Index 1', async (t) => {
       address:
         'ddbc22759c1cc4fc638a4f7e3a56e74be3065a580b08be2e97073c4985bbfd94',
       type: 'ed25519',
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-test('balance for ICP address', async (t) => {
-  try {
-    const balance = await getBalance(
-      '07b1b5f1f023eaa457a6d63fe00cea8cae5c943461350de455cb2d1f3dec8992'
-    );
-    t.like(balance, {
-      balances: [
-        {
-          value: '134891000',
-          currency: {
-            symbol: 'ICP',
-            decimals: 8,
-          },
-        },
-      ],
     });
   } catch (error) {
     console.log(error);

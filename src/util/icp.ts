@@ -34,7 +34,13 @@ export const verifyWithPublicKey = (
 };
 
 export const getBalance = async (address) => {
-  let serverRes = {};
+  let serverRes = {
+    value: 0,
+    currency: {
+      symbol: 'ICP',
+      decimals: 0,
+    },
+  };
 
   const data = {
     network_identifier: {
