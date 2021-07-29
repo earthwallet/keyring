@@ -5,7 +5,6 @@ import { Network } from '@xchainjs/xchain-client';
 import { Client as ethClient } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
 import { Client as polkaClient } from '@xchainjs/xchain-polkadot';
-import { Client as thorClient } from '@xchainjs/xchain-thorchain';
 
 import type { EarthBalance } from '../types';
 
@@ -107,9 +106,6 @@ export const getTransactions = async (address, symbol) => {
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'BCH') {
     const _client = new bchClient({ network: 'mainnet' as Network });
-    txns = await _client.getTransactions({ address });
-  } else if (symbol === 'RUNE') {
-    const _client = new thorClient({ network: 'mainnet' as Network });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'ETH') {
     const _client = new ethClient({ network: 'mainnet' as Network });

@@ -12,7 +12,6 @@ import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
 import { Client as ethClient } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
-import { Client as thorClient } from '@xchainjs/xchain-thorchain';
 import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
 import { derivePath } from 'ed25519-hd-key';
 import elliptic from 'elliptic';
@@ -195,19 +194,6 @@ export const createWallet = async (
       });
 
       const address = _bchClient.getAddress(account);
-
-      return {
-        address: address,
-        type: 'ecdsa',
-      };
-    }
-    case 'RUNE': {
-      const _thorClient = new thorClient({
-        network: 'mainnet' as Network,
-        phrase: mnemonic,
-      });
-
-      const address = _thorClient.getAddress(account);
 
       return {
         address: address,

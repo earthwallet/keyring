@@ -1944,11 +1944,6 @@
   resolved "https://registry.yarnpkg.com/@xchainjs/xchain-client/-/xchain-client-0.10.2.tgz#e9da2e0a252100876ce8c14c2241d172b79cc9e2"
   integrity sha512-+g1qRZErMxKihdPEBhFDI5Br7TmEzVuZ1zTNPnM5iSRdyIVEAPzrcQdd11U2IBD/IZyv2Mh3cA69bGDuYfB1+g==
 
-"@xchainjs/xchain-cosmos@^0.13.6":
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/@xchainjs/xchain-cosmos/-/xchain-cosmos-0.13.6.tgz#5cec4e5c953193a928bc6d31881793d2e631a884"
-  integrity sha512-clvrQSVJx7FOZhwdoIMsBJpqcjtelum/wHquJbnSTg9zBhIa8dYoppAgYRm8dXEA+C/0hOa2nxhEWDkjU5Zh+g==
-
 "@xchainjs/xchain-crypto@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@xchainjs/xchain-crypto/-/xchain-crypto-0.2.5.tgz#369c0a187dcd1ad48e353e44914bff185ac96851"
@@ -1975,11 +1970,6 @@
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/@xchainjs/xchain-polkadot/-/xchain-polkadot-0.8.3.tgz#817c7f04193dd08a5620a6e949df97a1874804ef"
   integrity sha512-2/8SDskiGNvfwdHPYPV93IeNLcjPmRDK90uqs2RKMZDGjVnUMCMzVbLlwpva1ABcjVKldrG3pETvGm8wACVthA==
-
-"@xchainjs/xchain-thorchain@^0.17.5":
-  version "0.17.5"
-  resolved "https://registry.yarnpkg.com/@xchainjs/xchain-thorchain/-/xchain-thorchain-0.17.5.tgz#7a5881e08ddf1b792bbe38cddafc8fa755bf690e"
-  integrity sha512-pQqFf1sEPT+8f3wK1PVM2eJ7lwXkcTX7djz2rFjsb9qOZY0lzd1F2qU60S9EX1BL3jNJbDXmaPJcgdqq15AzvA==
 
 "@xchainjs/xchain-util@^0.3.1":
   version "0.3.1"
@@ -2363,7 +2353,7 @@ ava@^3.12.1:
     write-file-atomic "^3.0.3"
     yargs "^16.2.0"
 
-axios@^0.19.0, axios@^0.19.2:
+axios@^0.19.0:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
@@ -3392,19 +3382,6 @@ cosmiconfig@^7.0.0:
     parse-json "^5.0.0"
     path-type "^4.0.0"
     yaml "^1.10.0"
-
-cosmos-client@0.39.2:
-  version "0.39.2"
-  resolved "https://registry.yarnpkg.com/cosmos-client/-/cosmos-client-0.39.2.tgz#332da4a8b5935c5309afb03f2fd6de808a4e35f0"
-  integrity sha512-ISGmjrQA5dpJfRi289fQQIrrhcb7R79fPmvWGG1iOjjIaT++h5nMxE8upmVTsxYPSJZxLEntbQgKeeZ3HaY8PA==
-  dependencies:
-    axios "^0.19.2"
-    bech32 "^1.1.3"
-    bip32 "^2.0.5"
-    bip39 "^3.0.2"
-    sr25519 "^0.2.0"
-    tiny-secp256k1 "^1.1.3"
-    tweetnacl "^1.0.1"
 
 crc-32@^1.2.0:
   version "1.2.0"
@@ -7802,11 +7779,6 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
-
-sr25519@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/sr25519/-/sr25519-0.2.0.tgz#80e1632c1e7c07eae00cf5303dc804d87e76fb15"
-  integrity sha512-dRyJ09XOOl6tBRwQ3ZwkukyvhY3mHLC5k45aBBp+xjKEpjPPU4oL2JCQqisNhL96/gzwsI1PMxZ52svfQurNLw==
 
 stack-utils@^2.0.3:
   version "2.0.3"
