@@ -217,23 +217,6 @@ test('create wallet for BCH', async (t) => {
   }
 });
 
-test('create wallet for RUNE', async (t) => {
-  try {
-    const walletObj = await createWallet(
-      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
-      'RUNE'
-    );
-
-    //can be validated from https://iancoleman.io/bip39/
-    t.like(walletObj, {
-      address: 'thor1srjmaduh33c627uryvc6qw4ek7rl0zf96n5yf7',
-      type: 'ecdsa',
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 test('create wallet for KSM', async (t) => {
   try {
     const walletObj = await createWallet(
