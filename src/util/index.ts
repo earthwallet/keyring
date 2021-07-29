@@ -2,7 +2,6 @@ import { Client as bnbClient } from '@xchainjs/xchain-binance';
 import { Client as btcClient } from '@xchainjs/xchain-bitcoin';
 import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
-import { Client as cosmosClient } from '@xchainjs/xchain-cosmos';
 import { Client as ethClient } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
 import { Client as polkaClient } from '@xchainjs/xchain-polkadot';
@@ -108,9 +107,6 @@ export const getTransactions = async (address, symbol) => {
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'BCH') {
     const _client = new bchClient({ network: 'mainnet' as Network });
-    txns = await _client.getTransactions({ address });
-  } else if (symbol === 'ATOM') {
-    const _client = new cosmosClient({ network: 'mainnet' as Network });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'RUNE') {
     const _client = new thorClient({ network: 'mainnet' as Network });

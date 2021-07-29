@@ -10,7 +10,6 @@ import { Client as bnbClient } from '@xchainjs/xchain-binance';
 import { Client as btcClient } from '@xchainjs/xchain-bitcoin';
 import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
-import { Client as cosmosClient } from '@xchainjs/xchain-cosmos';
 import { Client as ethClient } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
 import { Client as thorClient } from '@xchainjs/xchain-thorchain';
@@ -196,19 +195,6 @@ export const createWallet = async (
       });
 
       const address = _bchClient.getAddress(account);
-
-      return {
-        address: address,
-        type: 'ecdsa',
-      };
-    }
-    case 'ATOM': {
-      const _cosmosClient = new cosmosClient({
-        network: 'mainnet' as Network,
-        phrase: mnemonic,
-      });
-
-      const address = _cosmosClient.getAddress(account);
 
       return {
         address: address,
