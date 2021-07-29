@@ -1,6 +1,6 @@
 {
   "name": "@earthwallet/sdk",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "Your Keys to the New Internet",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -62,7 +62,6 @@
     "@xchainjs/xchain-bitcoin": "^0.15.11",
     "@xchainjs/xchain-bitcoincash": "^0.11.8",
     "@xchainjs/xchain-client": "^0.10.2",
-    "@xchainjs/xchain-cosmos": "^0.13.6",
     "@xchainjs/xchain-crypto": "^0.2.5",
     "@xchainjs/xchain-ethereum": "^0.22.4",
     "@xchainjs/xchain-litecoin": "^0.6.9",
