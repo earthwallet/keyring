@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 //import { blobFromBuffer } from '@dfinity/agent';
 //import { Bip39Ed25519KeyIdentity } from '@dfinity/authentication';
 import { Ed25519KeyIdentity } from '@dfinity/identity';
@@ -134,6 +135,8 @@ export const createWallet = async (
       const keyring = new Keyring({ type: 'sr25519' });
       if (symbol === 'KSM') {
         keyring.setSS58Format(2);
+      } else if (symbol === 'DOT') {
+        keyring.setSS58Format(0);
       }
       const {
         address,

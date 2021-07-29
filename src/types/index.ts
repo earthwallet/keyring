@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable functional/no-method-signature */
 /**
  * If you import a dependency which does not include its own type definitions,
  * TypeScript will try to find a definition for it by following the `typeRoots`
@@ -29,7 +31,6 @@ export interface EncryptedJson {
   encoded: string;
   encoding: EncryptedJsonDescriptor;
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EarthKeyringPair$Meta = Record<string, unknown>;
 export type KeypairType = 'ed25519' | 'sr25519' | 'ecdsa' | 'ethereum';
 export interface SignOptions {

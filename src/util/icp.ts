@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Actor, HttpAgent } from '@dfinity/agent';
 import { key_new, Session } from '@dfinity/rosetta-client';
 import { address_from_hex } from '@dfinity/rosetta-client';

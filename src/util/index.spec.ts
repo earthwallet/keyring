@@ -61,10 +61,10 @@ test('balance for KSM address', async (t) => {
 test('balance for BTC address', async (t) => {
   try {
     const balance = await getBalance(
-      'bc1q84z04sm2a5kjav003t4k0334a2ld6ldvtngmj3',
+      'bc1q96wk25mvsj6rxgvhwcl27rykwx7c30xgze2ee0',
       'BTC'
     );
-    t.is(balance.value, 1597531);
+    t.is(balance.value, 942066);
   } catch (error) {
     console.log(error);
   }

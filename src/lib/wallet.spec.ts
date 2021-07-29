@@ -276,7 +276,7 @@ test('create wallet for DOT', async (t) => {
     t.like(walletObj, {
       publicKey:
         '0x7806e3f1de6b8690b8eb57fded933c66f059993ba1d675f49ba3f94fac1f8425',
-      address: '5En5efYGoKFo2QADmypwgDY9CvuZq5Mj1xyqQSaK8SkniiDe',
+      address: '13iNnzoLf6XGTwAjjcswpNNJ4YuDXNus6TiKZjZfgXnJu1xD',
       type: 'sr25519',
     });
   } catch (error) {
