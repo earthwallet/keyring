@@ -14,7 +14,11 @@ import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
 import { Client as ethClient } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
-import { generateMnemonic, mnemonicToSeedSync } from 'bip39';
+import {
+  generateMnemonic,
+  mnemonicToSeedSync,
+  validateMnemonic as _validateMnemonic,
+} from 'bip39';
 import { derivePath } from 'ed25519-hd-key';
 import elliptic from 'elliptic';
 import { publicToAddress } from 'ethereumjs-util';
@@ -22,9 +26,8 @@ import HDKey from 'hdkey';
 import Secp256k1 from 'secp256k1';
 import * as nacl from 'tweetnacl';
 
-import 'isomorphic-fetch';
 import type { EarthKeyringPair } from '../types';
-import Secp256k1KeyIdentity from '../util/icp/crypto/secpk256k1/identity';
+import Secp256k1KeyIdentity from '../util/icp/secpk256k1/identity';
 import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
@@ -44,7 +47,7 @@ export const getPublicKeySecp256k1 = (privateKey, compress) => {
  *
  * ### Example (es module)
  * ```js
- * import { newMnemonic } from 'earthjs'
+ * import { newMnemonic } from '@earthwallet/keyring'
  * await newMnemonic();
  * // => open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano
  * ```
@@ -59,11 +62,28 @@ export const newMnemonic = async () => {
 };
 
 /**
+ * Validate Mnemonic
+ *
+ * ### Example (es module)
+ * ```js
+ * import { validateMnemonic } from '@earthwallet/keyring'
+ * validateMnemonic('open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano');
+ * // => true
+ * ```
+ * @returns boolean.
+ */
+
+export const validateMnemonic = (
+  mnemonic: string,
+  wordlist?: string[]
+): boolean => _validateMnemonic(mnemonic, wordlist);
+
+/**
  * Get slip44 object for a symbol
  *
  * ### Example (es module)
  * ```js
- * import { getSlipFromSymbol } from 'earthjs'
+ * import { getSlipFromSymbol } from '@earthwallet/keyring'
  * getSlipFromSymbol("ICP");
  * // => {
     index: '223',
@@ -271,7 +291,8 @@ export const createWallet = async (
       };
     }
 
-    case 'ICPX': {
+    case 'ICP-Ed25519': {
+      //deprecated
       const seed = mnemonicToSeedSync(mnemonic);
 
       const ICP_SLIP_PATH = `m/44'/223'/0'/0'/${SLIP_ACCOUNT}'`;

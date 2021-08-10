@@ -1,72 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Actor, HttpAgent } from '@dfinity/agent';
-import {
-  BinaryBlob,
-  // blobFromHex,
-  blobFromUint8Array,
-  derBlobFromBlob,
-} from '@dfinity/candid';
 import { key_new, Session } from '@dfinity/rosetta-client';
 import { address_from_hex } from '@dfinity/rosetta-client';
 import { sha224 } from '@dfinity/rosetta-client/lib/hash';
-import { u8aToU8a } from '@polkadot/util';
 import axios, { AxiosRequestConfig } from 'axios';
-import * as tweetnacl from 'tweetnacl';
-import ledger from './ledger';
+import ledger from '../ledger';
+import fetch from 'cross-fetch';
 
-/* import agent from '@dfinity/agent';
-import { getCrc32 } from './crc';
-import { Secp256k1PublicKey } from './secp256k1pub';
- */
+export { address_to_hex } from '@dfinity/rosetta-client';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
-
-const RAW_KEY_LENGTH = 65;
-const DER_PREFIX_HEX = '3056301006072a8648ce3d020106052b8104000a034200';
-const DER_PREFIX = Uint8Array.from(Buffer.from(DER_PREFIX_HEX, 'hex'));
-
-export const derEncode = (publicKey: BinaryBlob) => {
-  if (publicKey.byteLength !== RAW_KEY_LENGTH) {
-    const bl = publicKey.byteLength;
-    console.error(
-      `secp256k1 public key must be ${RAW_KEY_LENGTH} bytes long (is ${bl})`
-    );
-  }
-  const derPublicKey = Uint8Array.from([
-    ...DER_PREFIX,
-    ...new Uint8Array(publicKey),
-  ]);
-  return derBlobFromBlob(blobFromUint8Array(derPublicKey));
-};
-/**
- * @function getPrincipalFromPublicKey
- * @param  {string} publicKey: uncompressed public key
- * @return {string} {principal text}
- */
-/* export const getPrincipalFromPublicKey = (publicKey: string) => {
-  const secp256k1PubKey = derEncode(blobFromHex(publicKey));
-  const auth = Principal.selfAuthenticating(secp256k1PubKey);
-  return auth;
-}; */
-
-export const signWithPrivateKey = (
-  message: Uint8Array | string,
-  privateKey: Uint8Array | Buffer
-): Uint8Array => {
-  return tweetnacl.sign.detached(u8aToU8a(message), u8aToU8a(privateKey));
-};
-
-export const verifyWithPublicKey = (
-  message: Uint8Array | string,
-  signature: Uint8Array | string,
-  publicKey: Uint8Array
-): boolean => {
-  return tweetnacl.sign.detached.verify(
-    u8aToU8a(message),
-    u8aToU8a(signature),
-    publicKey
-  );
-};
 
 export const getBalance = async (address) => {
   let serverRes = {

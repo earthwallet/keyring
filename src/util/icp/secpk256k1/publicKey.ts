@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-this-expression */
-/* eslint-disable functional/no-class */
 import { DerEncodedBlob, PublicKey } from '@dfinity/agent';
 import {
   BinaryBlob,
@@ -24,19 +22,12 @@ class Secp256k1PublicKey implements PublicKey {
     return this.fromDer(key.toDer());
   }
 
-  // The length of secp256k1 public keys is always 65 bytes.
   private static RAW_KEY_LENGTH = 65;
-
-  // Adding this prefix to a raw public key is sufficient to DER-encode it.
-  // prettier-ignore
-  private static DER_PREFIX = Uint8Array.from([
-    0x30, 0x56, // SEQUENCE
-    0x30, 0x10, // SEQUENCE
-    0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, // OID ECDSA
-    0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x0a, // OID secp256k1
-    0x03, 0x42, // BIT STRING
-    0x00, // no padding
-  ]);
+  private static DER_PREFIX_HEX =
+    '3056301006072a8648ce3d020106052b8104000a034200';
+  private static DER_PREFIX = Uint8Array.from(
+    Buffer.from(Secp256k1PublicKey.DER_PREFIX_HEX, 'hex')
+  );
 
   private static derEncode(publicKey: BinaryBlob): DerEncodedBlob {
     if (publicKey.byteLength !== Secp256k1PublicKey.RAW_KEY_LENGTH) {

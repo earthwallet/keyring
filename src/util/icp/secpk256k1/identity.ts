@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-this-expression */
-/* eslint-disable functional/no-class */
 import { PublicKey, SignIdentity } from '@dfinity/agent';
 import {
   BinaryBlob,

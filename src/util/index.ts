@@ -14,10 +14,10 @@ import {
   sendICP,
 } from './icp';
 
-export const send = async (id, to_aid, from_sub, amount, symbol) => {
+export const send = async (identity, to_aid, from_sub, amount, symbol) => {
   let hash;
   if (symbol === 'ICP') {
-    hash = await sendICP(id, to_aid, from_sub, amount);
+    hash = await sendICP(identity, to_aid, from_sub, amount);
   }
   return hash;
 };
