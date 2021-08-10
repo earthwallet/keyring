@@ -1,19 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Actor, HttpAgent } from '@dfinity/agent';
+import {
+  BinaryBlob,
+  // blobFromHex,
+  blobFromUint8Array,
+  derBlobFromBlob,
+} from '@dfinity/candid';
 import { key_new, Session } from '@dfinity/rosetta-client';
 import { address_from_hex } from '@dfinity/rosetta-client';
 import { sha224 } from '@dfinity/rosetta-client/lib/hash';
 import { u8aToU8a } from '@polkadot/util';
 import axios, { AxiosRequestConfig } from 'axios';
 import * as tweetnacl from 'tweetnacl';
+import ledger from './ledger';
 
 /* import agent from '@dfinity/agent';
 import { getCrc32 } from './crc';
 import { Secp256k1PublicKey } from './secp256k1pub';
  */
-import ledger from './ledger';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
+
+const RAW_KEY_LENGTH = 65;
+const DER_PREFIX_HEX = '3056301006072a8648ce3d020106052b8104000a034200';
+const DER_PREFIX = Uint8Array.from(Buffer.from(DER_PREFIX_HEX, 'hex'));
+
+export const derEncode = (publicKey: BinaryBlob) => {
+  if (publicKey.byteLength !== RAW_KEY_LENGTH) {
+    const bl = publicKey.byteLength;
+    console.error(
+      `secp256k1 public key must be ${RAW_KEY_LENGTH} bytes long (is ${bl})`
+    );
+  }
+  const derPublicKey = Uint8Array.from([
+    ...DER_PREFIX,
+    ...new Uint8Array(publicKey),
+  ]);
+  return derBlobFromBlob(blobFromUint8Array(derPublicKey));
+};
+/**
+ * @function getPrincipalFromPublicKey
+ * @param  {string} publicKey: uncompressed public key
+ * @return {string} {principal text}
+ */
+/* export const getPrincipalFromPublicKey = (publicKey: string) => {
+  const secp256k1PubKey = derEncode(blobFromHex(publicKey));
+  const auth = Principal.selfAuthenticating(secp256k1PubKey);
+  return auth;
+}; */
 
 export const signWithPrivateKey = (
   message: Uint8Array | string,
@@ -155,25 +189,31 @@ const to32bits = (num) => {
   return Array.from(new Uint8Array(b));
 };
 
-export const sendICP = async (id, to_aid, from_sub, amount) => {
-  const agent = new HttpAgent({
-    host: 'https://boundary.ic0.app/',
-    identity: id,
+export const sendICP = async (identity, to_aid, from_sub, amount) => {
+  const agent = await Promise.resolve(
+    new HttpAgent({
+      host: 'https://ic0.app/',
+      fetch,
+      identity: identity,
+    })
+  ).then(async (ag) => {
+    // await ag.fetchRootKey();
+    return ag;
   });
+
   const API = Actor.createActor(ledger, {
     agent: agent,
     canisterId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
   });
 
-  const args = {
+  const b = await API.send_dfx({
     to: to_aid,
-    fee: { e8s: 0.0001 * 100000000 },
+    fee: { e8s: 10000 },
     memo: 0,
     from_subaccount: [getSubAccountArray(from_sub)],
     created_at_time: [],
     amount: { e8s: amount * 100000000 },
-  };
-  const b = await API.send_dfx(args);
+  });
   return b;
 };
 
@@ -195,11 +235,7 @@ export const SUB_ACCOUNT_ZERO = Buffer.alloc(32);
 export const ACCOUNT_DOMAIN_SEPERATOR = Buffer.from('\x0Aaccount-id');
 
 export const principal_id_to_address = (pid) => {
-  return sha224([
-    ACCOUNT_DOMAIN_SEPERATOR,
-    pid.toUint8Array(),
-    SUB_ACCOUNT_ZERO,
-  ]);
+  return sha224([ACCOUNT_DOMAIN_SEPERATOR, pid.toBlob(), SUB_ACCOUNT_ZERO]);
 };
 
 export const indexToHash = (index) => {

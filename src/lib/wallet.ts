@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 //import { blobFromBuffer } from '@dfinity/agent';
 //import { Bip39Ed25519KeyIdentity } from '@dfinity/authentication';
+import { blobFromUint8Array } from '@dfinity/candid';
 import { Ed25519KeyIdentity } from '@dfinity/identity';
+import { Secp256k1PublicKey } from '@dfinity/identity-ledgerhq';
 import { address_to_hex } from '@dfinity/rosetta-client';
 import Keyring from '@polkadot/keyring';
 import { u8aToHex, u8aToU8a } from '@polkadot/util';
@@ -17,18 +19,20 @@ import { derivePath } from 'ed25519-hd-key';
 import elliptic from 'elliptic';
 import { publicToAddress } from 'ethereumjs-util';
 import HDKey from 'hdkey';
+import Secp256k1 from 'secp256k1';
 import * as nacl from 'tweetnacl';
 
 import 'isomorphic-fetch';
 import type { EarthKeyringPair } from '../types';
+import Secp256k1KeyIdentity from '../util/icp/crypto/secpk256k1/identity';
 import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
 
-const secp256k1 = new elliptic.ec('secp256k1');
-
 export const getPublicKeySecp256k1 = (privateKey, compress) => {
-  const ecKey = secp256k1.keyFromPrivate(
+  const _secp256k1 = new elliptic.ec('secp256k1');
+
+  const ecKey = _secp256k1.keyFromPrivate(
     privateKey.toLowerCase().replace('0x', ''),
     'hex'
   );
@@ -245,6 +249,29 @@ export const createWallet = async (
       };
     }
     case 'ICP': {
+      //DERIVATION_PATH = "m/44'/223'/0'/0";
+      const seed = mnemonicToSeedSync(mnemonic);
+      const masterKey = HDKey.fromMasterSeed(seed);
+      const masterPrv = masterKey.derive(SLIP_PATH);
+
+      const privateKey = masterPrv.privateKey;
+      const publicKey = Secp256k1.publicKeyCreate(privateKey, false);
+      const identity = Secp256k1KeyIdentity.fromKeyPair(
+        Secp256k1PublicKey.fromRaw(blobFromUint8Array(publicKey)).toRaw(),
+        privateKey
+      );
+
+      return {
+        identity: identity,
+        publicKey: identity.toJSON()[0],
+        address: address_to_hex(
+          principal_id_to_address(identity.getPrincipal())
+        ),
+        type: 'ecdsa',
+      };
+    }
+
+    case 'ICPX': {
       const seed = mnemonicToSeedSync(mnemonic);
 
       const ICP_SLIP_PATH = `m/44'/223'/0'/0'/${SLIP_ACCOUNT}'`;

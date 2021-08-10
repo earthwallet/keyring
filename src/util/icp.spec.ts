@@ -1,11 +1,12 @@
-import { Ed25519KeyIdentity } from '@dfinity/identity';
-import { address_to_hex } from '@dfinity/rosetta-client';
+// import { blobFromUint8Array } from '@dfinity/candid';
 import test from 'ava';
-import { mnemonicToSeedSync } from 'bip39';
-import { derivePath } from 'ed25519-hd-key';
+
+import { createWallet } from '../lib/wallet';
+
+// import Secp256k1KeyIdentity from './crypto/Secp256k1KeyIdentity';
+import { sendICP } from './icp';
 
 import 'isomorphic-fetch';
-import { principal_id_to_address, sendICP } from './icp';
 
 //https://github.com/dfinity/internet-identity/tree/main
 
@@ -25,25 +26,16 @@ import { principal_id_to_address, sendICP } from './icp';
 
 test('send transaction throws error for empty address', async (t) => {
   try {
-    //sweet unaware acoustic ability armor scheme often notice index artefact trap blouse
     const seedPhrase =
       'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano';
-    const seed = mnemonicToSeedSync(seedPhrase, '');
 
-    const SLIP_PATH = `m/44'/223'/0'/0'/${0}'`;
-    const { key: privateKey } = derivePath(`${SLIP_PATH}`, seed as any);
-    const uintSeed = Uint8Array.from(privateKey);
-    const ultimate_icp = Ed25519KeyIdentity.generate(uintSeed);
-
-    const address = address_to_hex(
-      principal_id_to_address(ultimate_icp.getPrincipal())
-    );
+    const walletObj = await createWallet(seedPhrase, 'ICP');
 
     const hash = await sendICP(
-      ultimate_icp,
+      walletObj.identity,
       '07b1b5f1f023eaa457a6d63fe00cea8cae5c943461350de455cb2d1f3dec8992',
-      address,
-      0.001
+      walletObj.address,
+      0.003
     );
     console.log(hash);
   } catch (error) {

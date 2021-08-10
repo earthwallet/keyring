@@ -26,7 +26,9 @@
     "WebAssembly": true
   },
   "rules": {
+    "functional/no-this-expression": 0,
     "functional/no-return-void": 0,
+    "functional/no-class": 0,
     "functional/immutable-data": 0,
     "functional/no-throw-statement": 0,
     "functional/no-let": 0,
@@ -34,6 +36,7 @@
     "functional/prefer-readonly-type": 0,
     "functional/no-loop-statement": 0,
     "functional/prefer-type-literal": 0,
+    "functional/functional-parameters": 0,
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "eslint-comments/disable-enable-pair": [
@@ -44,7 +47,7 @@
     ],
     "eslint-comments/no-unused-disable": "warn",
     "import/order": [
-      "error",
+      "off",
       {
         "newlines-between": "always",
         "alphabetize": {
@@ -53,7 +56,7 @@
       }
     ],
     "sort-imports": [
-      "error",
+      "off",
       {
         "ignoreDeclarationSort": true,
         "ignoreCase": true

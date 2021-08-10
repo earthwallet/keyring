@@ -1,4 +1,3 @@
-import { u8aToHex } from '@polkadot/util';
 import test from 'ava';
 
 import { createWallet } from './wallet';
@@ -6,22 +5,17 @@ import { createWallet } from './wallet';
 test('create wallet for ICP', async (t) => {
   try {
     const walletObj = await createWallet(
-      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'illness estate carpet dog social garment fan maximum mansion goose panda public',
       'ICP'
     );
 
     t.like(walletObj, {
       publicKey:
-        '302a300506032b6570032100976b4e3c2795266dcef9aff849805e15889664c86e57d3e3c0f33f55e8d1c384',
+        '04963ac190a31d91a06d575e33ac9bacb6540112fe1b95118032bcb9c2353bfa98c2053b7d363a67fede789ddff86745ff32534aabec285e63e7ec22e8fd4eb7d6',
       address:
-        'baf6d87d6abf34c7f937fe86764099c8002667397fc0b32237c0cb61fdd242c8',
-      type: 'ed25519',
+        'c24ea8ecf529a22c7a84754ecd0666b5e8d0bc5dc49fca1392c5874836e38265',
+      type: 'ecdsa',
     });
-    const signature = walletObj.sign('signthis');
-    t.is(
-      u8aToHex(signature),
-      '0x7e2e49a3d13c02b179ef1ea73a1eb7bfa3dba3a3497e439e64debc5df5758f612746552f216b2bd0738b9ff6f9e307dc0b44b33d8067ed3b5b839769f27c9201'
-    );
   } catch (error) {
     console.log(error);
   }
@@ -30,16 +24,16 @@ test('create wallet for ICP', async (t) => {
 test('create wallet for ICP Index 1', async (t) => {
   try {
     const walletObj = await createWallet(
-      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'illness estate carpet dog social garment fan maximum mansion goose panda public',
       'ICP',
       1
     );
     t.like(walletObj, {
       publicKey:
-        '302a300506032b65700321000fb1090bb65a9c0cd9523ed442bf6322f4b2c03275fa593ec192a7bbc9bf9531',
+        '04e46376b7a4bdddd93f8491b90cf34a83314f70f0fbde3bd0c398b98bd9c81cf691f4d5d8f1b6dbe50d2dd286df6ff9456245c83e062da3b958decda8346267b3',
       address:
-        'ddbc22759c1cc4fc638a4f7e3a56e74be3065a580b08be2e97073c4985bbfd94',
-      type: 'ed25519',
+        '9db6d5d5b76f7239582ad14be2b6ded88bc3afc3f9df524ab49ac6a8367ca5f6',
+      type: 'ecdsa',
     });
   } catch (error) {
     console.log(error);
