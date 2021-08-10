@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MetadataDefBase | @earthwallet/sdk</title>
+	<title>EarthBalance | @earthwallet/sdk</title>
 	<meta name="description" content="Documentation for @earthwallet/sdk">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="metadatadefbase.html">MetadataDefBase</a>
+					<a href="earthbalance.html">EarthBalance</a>
 				</li>
 			</ul>
-			<h1>Interface MetadataDefBase</h1>
+			<h1>Interface EarthBalance</h1>
 		</div>
 	</div>
 </header>
@@ -70,12 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">MetadataDefBase</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="metadatadef.html" class="tsd-signature-type">MetadataDef</a>
-							</li>
-						</ul>
+						<span class="target">EarthBalance</span>
 					</li>
 				</ul>
 			</section>
@@ -86,10 +81,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="metadatadefbase.html#chain" class="tsd-kind-icon">chain</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="metadatadefbase.html#genesishash" class="tsd-kind-icon">genesis<wbr>Hash</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="metadatadefbase.html#icon" class="tsd-kind-icon">icon</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="metadatadefbase.html#symbol" class="tsd-kind-icon">symbol</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="earthbalance.html#currency" class="tsd-kind-icon">currency</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="earthbalance.html#txns" class="tsd-kind-icon">txns</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="earthbalance.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,42 +92,43 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="chain" class="tsd-anchor"></a>
-					<h3>chain</h3>
-					<div class="tsd-signature tsd-kind-icon">chain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="currency" class="tsd-anchor"></a>
+					<h3>currency</h3>
+					<div class="tsd-signature tsd-kind-icon">currency<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>symbol<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/b00e258/src/inject/types.ts#L56">src/inject/types.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/b00e258/src/types/index.ts#L85">src/types/index.ts:85</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>decimals<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>symbol<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="txns" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> txns</h3>
+					<div class="tsd-signature tsd-kind-icon">txns<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/b00e258/src/types/index.ts#L83">src/types/index.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="genesishash" class="tsd-anchor"></a>
-					<h3>genesis<wbr>Hash</h3>
-					<div class="tsd-signature tsd-kind-icon">genesis<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="value" class="tsd-anchor"></a>
+					<h3>value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/b00e258/src/inject/types.ts#L57">src/inject/types.ts:57</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="icon" class="tsd-anchor"></a>
-					<h3>icon</h3>
-					<div class="tsd-signature tsd-kind-icon">icon<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/b00e258/src/inject/types.ts#L58">src/inject/types.ts:58</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="symbol" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> symbol</h3>
-					<div class="tsd-signature tsd-kind-icon">symbol<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/b00e258/src/inject/types.ts#L59">src/inject/types.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/earthwallet/sdk/blob/b00e258/src/types/index.ts#L84">src/types/index.ts:84</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -152,19 +147,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="metadatadefbase.html" class="tsd-kind-icon">Metadata<wbr>Def<wbr>Base</a>
+						<a href="earthbalance.html" class="tsd-kind-icon">Earth<wbr>Balance</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="metadatadefbase.html#chain" class="tsd-kind-icon">chain</a>
+								<a href="earthbalance.html#currency" class="tsd-kind-icon">currency</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="metadatadefbase.html#genesishash" class="tsd-kind-icon">genesis<wbr>Hash</a>
+								<a href="earthbalance.html#txns" class="tsd-kind-icon">txns</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="metadatadefbase.html#icon" class="tsd-kind-icon">icon</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="metadatadefbase.html#symbol" class="tsd-kind-icon">symbol</a>
+								<a href="earthbalance.html#value" class="tsd-kind-icon">value</a>
 							</li>
 						</ul>
 					</li>
