@@ -2,9 +2,11 @@ import { Client as bnbClient } from '@xchainjs/xchain-binance';
 import { Client as btcClient } from '@xchainjs/xchain-bitcoin';
 import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
-import { Client as ethClient } from '@xchainjs/xchain-ethereum';
+import { Client as ethClient, ETH_DECIMAL } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
 import { Client as polkaClient } from '@xchainjs/xchain-polkadot';
+import { baseAmount } from '@xchainjs/xchain-util';
+import BigNumber from 'bignumber.js';
 
 import type { EarthBalance } from '../types';
 
@@ -21,6 +23,45 @@ export const send = async (identity, to_aid, from_sub, amount, symbol) => {
   }
   return hash;
 };
+
+export const transfer = async (
+  recipient: string,
+  amount: string,
+  fromMnemonic: string,
+  symbol: string,
+  options: Record<string, unknown>
+): Promise<string> => {
+  if (symbol === 'ETH') {
+    const _amount = new BigNumber(amount).shiftedBy(ETH_DECIMAL);
+
+    console.log(options);
+    const _ethClient = new ethClient({
+      network: (options?.network as Network) || ('testnet' as Network),
+      phrase: fromMnemonic,
+      ethplorerUrl: 'https://api.ethplorer.io',
+    });
+    const gasFee = await _ethClient.estimateFeesWithGasPricesAndLimits({
+      recipient,
+      amount: baseAmount(_amount, ETH_DECIMAL),
+    });
+
+    const txHash = await _ethClient.transfer({
+      recipient,
+      amount: baseAmount(_amount),
+      gasLimit: gasFee.gasLimit,
+      gasPrice: gasFee.gasPrices.average,
+    });
+
+    return txHash;
+  }
+  return '';
+};
+
+/* const TEST_MNE_0 =
+  'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
+ */
+const TEST_MNE_1 =
+  'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano';
 
 export const getBalance = async (
   address: string,
@@ -39,8 +80,7 @@ export const getBalance = async (
   } else if (symbol === 'BNB') {
     const _client = new bnbClient({
       network: 'mainnet' as Network,
-      phrase:
-        'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      phrase: TEST_MNE_1,
     });
     console.log(address, symbol, 'getBalance');
     const _balance = await _client.getBalance(address);
@@ -59,7 +99,10 @@ export const getBalance = async (
     const _client = new polkaClient({ network: 'mainnet' as Network });
     balance = await _client.getBalance(address);
   } */ else if (symbol === 'BTC') {
-    const _client = new btcClient({ network: 'mainnet' as Network });
+    const _client = new btcClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     const _balance = await _client.getBalance(address);
     balance = {
       value: _balance[0].amount.amount().toNumber(),
@@ -68,7 +111,22 @@ export const getBalance = async (
         decimals: _balance[0].amount.decimal,
       },
     };
-  } /* else if (symbol === 'BCH') {
+  } else if (symbol === 'ETH') {
+    const _client = new ethClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    const _balance = await _client.getBalance(address);
+    balance = {
+      value: _balance[0].amount.amount().toNumber(),
+      currency: {
+        symbol: symbol,
+        decimals: _balance[0].amount.decimal,
+      },
+    };
+  }
+
+  /* else if (symbol === 'BCH') {
     const _client = new bchClient({ network: 'mainnet' as Network });
     balance = await _client.getBalance(address);
   } else if (symbol === 'ATOM') {
