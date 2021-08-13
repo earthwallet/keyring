@@ -11,7 +11,7 @@ test('balance for ICP address', async (t) => {
     t.like(balance, {
       balances: [
         {
-          value: '128791000',
+          value: '128271000',
           currency: {
             symbol: 'ICP',
             decimals: 8,
@@ -68,7 +68,7 @@ test('balance for BTC address', async (t) => {
   } catch (error) {
     console.log(error);
   }
-}); /* 
+}); /*
 test('balance for BCH address', async (t) => {
   try {
     const balance = await getBalance(
