@@ -1,7 +1,24 @@
 import test from 'ava';
 
-import { getBalance } from './';
+import { getBalance, transfer } from './';
 
+test('transfer from empty ETH address throws error', async (t) => {
+  try {
+    const hash = await transfer(
+      '0x5E557586308Df0b695Add73ECA8282331DE1833C',
+      '1',
+      'sweet unaware acoustic ability armor scheme often notice index artefact trap blouse',
+      'ETH',
+      {}
+    );
+
+    console.log(hash);
+  } catch (error) {
+    console.log(error);
+    t.truthy(error.code === 'INSUFFICIENT_FUNDS');
+  }
+});
+/*
 test('balance for ICP address', async (t) => {
   try {
     const balance = await getBalance(
@@ -23,6 +40,7 @@ test('balance for ICP address', async (t) => {
     console.log(error);
   }
 });
+ */
 
 /* test('balance for BNB address', async (t) => {
   try {
