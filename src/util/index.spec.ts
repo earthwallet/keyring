@@ -18,7 +18,7 @@ test('transfer from empty ETH address throws error', async (t) => {
     t.truthy(error.code === 'INSUFFICIENT_FUNDS');
   }
 });
-/*
+/* 
 test('balance for ICP address', async (t) => {
   try {
     const balance = await getBalance(
@@ -41,26 +41,14 @@ test('balance for ICP address', async (t) => {
   }
 });
  */
-
-/* test('balance for BNB address', async (t) => {
+/* 
+test('balance for DOT address', async (t) => {
   try {
     const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
-      'BNB'
-    );
-    t.like(balance, []);
-  } catch (error) {
-    console.log(error);
-  }
-}); */
-
-/* test('balance for DOT address', async (t) => {
-  try {
-    const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
+      '16WyaXVX8qkYjcmCZK7Bz8KKqwMxNeQStX8SGkE3coArGLBB',
       'DOT'
     );
-    t.like(balance, []);
+    t.is(balance.value, 196556676072680220);
   } catch (error) {
     console.log(error);
   }
@@ -68,14 +56,15 @@ test('balance for ICP address', async (t) => {
 test('balance for KSM address', async (t) => {
   try {
     const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
+      'J6J6WaKuRW13ja8NNsEjvrB8ueYV1fVGQEhW7WeYWMpq9KF',
       'KSM'
     );
-    t.like(balance, []);
+    t.is(balance.value, 0);
   } catch (error) {
     console.log(error);
   }
-}); */
+});
+ */
 test('balance for BTC address', async (t) => {
   try {
     const balance = await getBalance(
@@ -86,47 +75,50 @@ test('balance for BTC address', async (t) => {
   } catch (error) {
     console.log(error);
   }
-}); /*
-test('balance for BCH address', async (t) => {
-  try {
-    const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
-      'KSM'
-    );
-    t.like(balance, []);
-  } catch (error) {
-    console.log(error);
-  }
 });
-test('balance for ATOM address', async (t) => {
-  try {
-    const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
-      'ATOM'
-    );
-    t.like(balance, []);
-  } catch (error) {
-    console.log(error);
-  }
-});
-test('balance for RUNE address', async (t) => {
-  try {
-    const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
-      'RUNE'
-    );
-    t.like(balance, []);
-  } catch (error) {
-    console.log(error);
-  }
-});
+
 test('balance for ETH address', async (t) => {
   try {
     const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
+      '0x9d39Bd670D7Ef1880E5B733d08C5b42942884F05',
       'ETH'
     );
-    t.like(balance, []);
+    t.is(balance.value, 196556676072680220);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('balance for BCH address', async (t) => {
+  try {
+    const balance = await getBalance(
+      'qp794xu9ns88n3vy4yfk5ffcyqxukcvewcwevf6wez',
+      'BCH'
+    );
+    t.is(balance.value, 49849616);
+  } catch (error) {
+    console.log(error);
+  }
+});
+/* test('balance for ATOM address', async (t) => {
+  try {
+    const balance = await getBalance(
+      'cosmos1mcz38nkcua6w3ghkzuxzg5d8jwzsffwurz7xay',
+      'ATOM'
+    );
+    t.is(balance.value, 196556676072680220);
+  } catch (error) {
+    console.log(error);
+  }
+}); */
+
+test('balance for BNB address', async (t) => {
+  try {
+    const balance = await getBalance(
+      'bnb1p5lnh7czee2c73zu882lsaacuyj6xn30llzdh2',
+      'BNB'
+    );
+    t.is(balance.value, 48942500);
   } catch (error) {
     console.log(error);
   }
@@ -135,11 +127,11 @@ test('balance for ETH address', async (t) => {
 test('balance for LTC address', async (t) => {
   try {
     const balance = await getBalance(
-      'bnb1jgve64hudeacmtknk0fnx3fye35zgj7zjtv637',
+      'ltc1qq8um23n4yp6n250a2ylgwjuzxdufhwgmt58j4s',
       'LTC'
     );
-    t.like(balance, []);
+    t.is(balance.value, 99799450);
   } catch (error) {
     console.log(error);
   }
-}); */
+});
