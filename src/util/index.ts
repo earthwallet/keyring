@@ -33,8 +33,6 @@ export const transfer = async (
 ): Promise<string> => {
   if (symbol === 'ETH') {
     const _amount = new BigNumber(amount).shiftedBy(ETH_DECIMAL);
-
-    console.log(options);
     const _ethClient = new ethClient({
       network: (options?.network as Network) || ('testnet' as Network),
       phrase: fromMnemonic,
@@ -82,7 +80,6 @@ export const getBalance = async (
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
     });
-    console.log(address, symbol, 'getBalance');
     const _balance = await _client.getBalance(address);
     balance = {
       value: _balance[0] && _balance[0].amount.amount().toNumber(),
@@ -91,14 +88,33 @@ export const getBalance = async (
         decimals: _balance[0].amount.decimal,
       },
     };
-    console.log(JSON.stringify(_balance), 'getBalance');
-  } /* else if (symbol === 'DOT') {
-    const _client = new polkaClient({ network: 'mainnet' as Network });
-    balance = await _client.getBalance(address);
+  } else if (symbol === 'DOT') {
+    const _client = new polkaClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    const _balance = await _client.getBalance(address);
+    balance = {
+      value: _balance[0].amount.amount().toNumber(),
+      currency: {
+        symbol: symbol,
+        decimals: _balance[0].amount.decimal,
+      },
+    };
   } else if (symbol === 'KSM') {
-    const _client = new polkaClient({ network: 'mainnet' as Network });
-    balance = await _client.getBalance(address);
-  } */ else if (symbol === 'BTC') {
+    const _client = new polkaClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    const _balance = await _client.getBalance(address);
+    balance = {
+      value: _balance[0].amount.amount().toNumber(),
+      currency: {
+        symbol: symbol,
+        decimals: _balance[0].amount.decimal,
+      },
+    };
+  } else if (symbol === 'BTC') {
     const _client = new btcClient({
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
@@ -124,24 +140,33 @@ export const getBalance = async (
         decimals: _balance[0].amount.decimal,
       },
     };
-  }
-
-  /* else if (symbol === 'BCH') {
-    const _client = new bchClient({ network: 'mainnet' as Network });
-    balance = await _client.getBalance(address);
-  } else if (symbol === 'ATOM') {
-    const _client = new cosmosClient({ network: 'mainnet' as Network });
-    balance = await _client.getBalance(address);
-  } else if (symbol === 'RUNE') {
-    const _client = new thorClient({ network: 'mainnet' as Network });
-    balance = await _client.getBalance(address);
-  } else if (symbol === 'ETH') {
-    const _client = new ethClient({ network: 'mainnet' as Network });
-    balance = await _client.getBalance(address);
+  } else if (symbol === 'BCH') {
+    const _client = new bchClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    const _balance = await _client.getBalance(address);
+    balance = {
+      value: _balance[0].amount.amount().toNumber(),
+      currency: {
+        symbol: symbol,
+        decimals: _balance[0].amount.decimal,
+      },
+    };
   } else if (symbol === 'LTC') {
-    const _client = new ltcClient({ network: 'mainnet' as Network });
-    balance = await _client.getBalance(address);
-  } */
+    const _client = new ltcClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    const _balance = await _client.getBalance(address);
+    balance = {
+      value: _balance[0].amount.amount().toNumber(),
+      currency: {
+        symbol: symbol,
+        decimals: _balance[0].amount.decimal,
+      },
+    };
+  }
 
   return balance;
 };
