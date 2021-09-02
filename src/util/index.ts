@@ -1,12 +1,13 @@
 import { Client as bnbClient } from '@xchainjs/xchain-binance';
-import { Client as btcClient } from '@xchainjs/xchain-bitcoin';
+import { Client as btcClient, BTC_DECIMAL } from '@xchainjs/xchain-bitcoin';
 import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
 import { Client as ethClient, ETH_DECIMAL } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
 import { Client as polkaClient } from '@xchainjs/xchain-polkadot';
-import { baseAmount } from '@xchainjs/xchain-util';
+import { baseAmount, AssetBTC } from '@xchainjs/xchain-util';
 import BigNumber from 'bignumber.js';
+import { TxsPage, Tx, Fees } from '@xchainjs/xchain-client';
 
 import type { EarthBalance } from '../types';
 
@@ -29,14 +30,16 @@ export const transfer = async (
   amount: string,
   fromMnemonic: string,
   symbol: string,
-  options: Record<string, unknown>
+  options?: Record<string, unknown>
 ): Promise<string> => {
   if (symbol === 'ETH') {
     const _amount = new BigNumber(amount).shiftedBy(ETH_DECIMAL);
     const _ethClient = new ethClient({
       network: (options?.network as Network) || ('testnet' as Network),
       phrase: fromMnemonic,
-      ethplorerUrl: 'https://api.ethplorer.io',
+      ethplorerUrl: options?.ethplorerUrl as string,
+      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      etherscanApiKey: options?.etherscanApiKey as string,
     });
     const gasFee = await _ethClient.estimateFeesWithGasPricesAndLimits({
       recipient,
@@ -48,6 +51,20 @@ export const transfer = async (
       amount: baseAmount(_amount),
       gasLimit: gasFee.gasLimit,
       gasPrice: gasFee.gasPrices.average,
+    });
+
+    return txHash;
+  } else if (symbol === 'BTC') {
+    const _amount = new BigNumber(amount).shiftedBy(BTC_DECIMAL);
+    const _btcClient = new btcClient({
+      network: (options?.network as Network) || ('testnet' as Network),
+      phrase: fromMnemonic,
+    });
+
+    const txHash = await _btcClient.transfer({
+      asset: AssetBTC,
+      recipient,
+      amount: baseAmount(_amount),
     });
 
     return txHash;
@@ -63,7 +80,8 @@ const TEST_MNE_1 =
 
 export const getBalance = async (
   address: string,
-  symbol: string
+  symbol: string,
+  options?: Record<string, unknown>
 ): Promise<EarthBalance> => {
   let balance = {
     value: 0,
@@ -131,6 +149,9 @@ export const getBalance = async (
     const _client = new ethClient({
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
+      ethplorerUrl: options?.ethplorerUrl as string,
+      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      etherscanApiKey: options?.etherscanApiKey as string,
     });
     const _balance = await _client.getBalance(address);
     balance = {
@@ -171,31 +192,111 @@ export const getBalance = async (
   return balance;
 };
 
-export const getTransactions = async (address, symbol) => {
-  let txns = {};
+export const getTransactions = async (address, symbol): Promise<TxsPage> => {
+  let txns = {} as TxsPage;
   if (symbol === 'ICP') {
     txns = await getTransactionsICP(address);
   } else if (symbol === 'BNB') {
-    const _client = new bnbClient({ network: 'mainnet' as Network });
+    const _client = new bnbClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'DOT') {
-    const _client = new polkaClient({ network: 'mainnet' as Network });
+    const _client = new polkaClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'KSM') {
-    const _client = new polkaClient({ network: 'mainnet' as Network });
+    const _client = new polkaClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'BTC') {
-    const _client = new btcClient({ network: 'mainnet' as Network });
+    const _client = new btcClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'BCH') {
-    const _client = new bchClient({ network: 'mainnet' as Network });
+    const _client = new bchClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'ETH') {
-    const _client = new ethClient({ network: 'mainnet' as Network });
+    const _client = new ethClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     txns = await _client.getTransactions({ address });
   } else if (symbol === 'LTC') {
-    const _client = new ltcClient({ network: 'mainnet' as Network });
+    const _client = new ltcClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
     txns = await _client.getTransactions({ address });
   }
   return txns;
+};
+
+export const getFees = async (
+  symbol: string,
+  options?: Record<string, unknown>
+): Promise<Fees> => {
+  let fees = {} as Fees;
+  if (symbol === 'BTC') {
+    const _client = new btcClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    fees = await _client.getFees();
+
+    return fees;
+  } else if (symbol === 'ETH') {
+    const _client = new ethClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+      ethplorerUrl: options?.ethplorerUrl as string,
+      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      etherscanApiKey: options?.etherscanApiKey as string,
+    });
+    fees = await _client.getFees();
+
+    return fees;
+  } else {
+    return fees;
+  }
+};
+
+export const getTransactionData = async (
+  txId: string,
+  symbol: string,
+  options?: Record<string, unknown>
+): Promise<Tx> => {
+  let txn = {} as Tx;
+  if (symbol === 'BTC') {
+    const _client = new btcClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    txn = await _client.getTransactionData(txId);
+
+    return txn;
+  } else if (symbol === 'ETH') {
+    const _client = new ethClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+      ethplorerUrl:
+        (options?.ethplorerUrl as string) || 'https://api.ethplorer.io',
+      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+    });
+    txn = await _client.getTransactionData(txId);
+
+    return txn;
+  } else {
+    return txn;
+  }
 };

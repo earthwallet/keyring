@@ -143,7 +143,8 @@ export const getSlipFromSymbol = (symbol: string) => {
 export const createWallet = async (
   mnemonic: string,
   symbol: string,
-  account?: number
+  account?: number,
+  options?: Record<string, unknown>
 ): Promise<EarthKeyringPair> => {
   const SLIP_ACCOUNT = account === undefined ? 0 : account;
   const SLIP_INDEX = getSlipFromSymbol(symbol).index; //defaults to ethereum
@@ -269,50 +270,57 @@ export const createWallet = async (
       };
     }
     case 'ICP': {
-      //DERIVATION_PATH = "m/44'/223'/0'/0";
-      const seed = mnemonicToSeedSync(mnemonic);
-      const masterKey = HDKey.fromMasterSeed(seed);
-      const masterPrv = masterKey.derive(SLIP_PATH);
+      switch (options?.type) {
+        case 'Ed25519': {
+          //backward compatiabile
+          const seed = mnemonicToSeedSync(mnemonic);
 
-      const privateKey = masterPrv.privateKey;
-      const publicKey = Secp256k1.publicKeyCreate(privateKey, false);
-      const identity = Secp256k1KeyIdentity.fromKeyPair(
-        Secp256k1PublicKey.fromRaw(blobFromUint8Array(publicKey)).toRaw(),
-        privateKey
-      );
+          const ICP_SLIP_PATH = `m/44'/223'/0'/0'/${SLIP_ACCOUNT}'`;
+          const { key: privateKey } = derivePath(
+            `${ICP_SLIP_PATH}`,
+            seed as any
+          );
+          const uintSeed = Uint8Array.from(privateKey);
+          const keyPair = Ed25519KeyIdentity.generate(uintSeed);
 
-      return {
-        identity: identity,
-        publicKey: identity.toJSON()[0],
-        address: address_to_hex(
-          principal_id_to_address(identity.getPrincipal())
-        ),
-        type: 'ecdsa',
-      };
-    }
+          return {
+            identity: keyPair,
+            publicKey: keyPair.toJSON()[0],
+            address: address_to_hex(
+              principal_id_to_address(keyPair.getPrincipal())
+            ),
+            sign: (message: string) =>
+              nacl.sign.detached(
+                u8aToU8a(message),
+                u8aToU8a('0x' + keyPair.toJSON()[1])
+              ),
+            type: 'ed25519',
+          };
+        }
+        case 'Secp256k1':
+        default: {
+          //DERIVATION_PATH = "m/44'/223'/0'/0";
+          const seed = mnemonicToSeedSync(mnemonic);
+          const masterKey = HDKey.fromMasterSeed(seed);
+          const masterPrv = masterKey.derive(SLIP_PATH);
 
-    case 'ICP-Ed25519': {
-      //deprecated
-      const seed = mnemonicToSeedSync(mnemonic);
+          const privateKey = masterPrv.privateKey;
+          const publicKey = Secp256k1.publicKeyCreate(privateKey, false);
+          const identity = Secp256k1KeyIdentity.fromKeyPair(
+            Secp256k1PublicKey.fromRaw(blobFromUint8Array(publicKey)).toRaw(),
+            privateKey
+          );
 
-      const ICP_SLIP_PATH = `m/44'/223'/0'/0'/${SLIP_ACCOUNT}'`;
-      const { key: privateKey } = derivePath(`${ICP_SLIP_PATH}`, seed as any);
-      const uintSeed = Uint8Array.from(privateKey);
-      const keyPair = Ed25519KeyIdentity.generate(uintSeed);
-
-      return {
-        identity: keyPair,
-        publicKey: keyPair.toJSON()[0],
-        address: address_to_hex(
-          principal_id_to_address(keyPair.getPrincipal())
-        ),
-        sign: (message: string) =>
-          nacl.sign.detached(
-            u8aToU8a(message),
-            u8aToU8a('0x' + keyPair.toJSON()[1])
-          ),
-        type: 'ed25519',
-      };
+          return {
+            identity: identity,
+            publicKey: identity.toJSON()[0],
+            address: address_to_hex(
+              principal_id_to_address(identity.getPrincipal())
+            ),
+            type: 'ecdsa',
+          };
+        }
+      }
     }
 
     default: {

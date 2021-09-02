@@ -21,6 +21,27 @@ test('create wallet for ICP', async (t) => {
   }
 });
 
+test('create wallet for ICP-Ed25519', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'illness estate carpet dog social garment fan maximum mansion goose panda public',
+      'ICP',
+      0,
+      { type: 'Ed25519' }
+    );
+
+    t.like(walletObj, {
+      publicKey:
+        '302a300506032b65700321009984152489282b29e7ef8c1ac706f7928da681f20c52118f817f1ec25810c795',
+      address:
+        'ab487baf0ddeb3a80ec5dbd3108f155c00a6ef55d91f6090c9400bbdb5585d23',
+      type: 'ed25519',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 test('create wallet for ICP Index 1', async (t) => {
   try {
     const walletObj = await createWallet(

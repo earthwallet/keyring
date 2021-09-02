@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { getBalance, transfer } from './';
+import { getBalance, transfer, getTransactions, getTransactionData } from './';
 
 test('transfer from empty ETH address throws error', async (t) => {
   try {
@@ -14,8 +14,22 @@ test('transfer from empty ETH address throws error', async (t) => {
 
     console.log(hash);
   } catch (error) {
-    console.log(error);
     t.truthy(error.code === 'INSUFFICIENT_FUNDS');
+  }
+});
+test('transfer from empty BTC address throws error', async (t) => {
+  try {
+    const hash = await transfer(
+      'bc1qa6v268z24gsx587zwe66f7ucev4ne0sffe9ksk',
+      '0.0001',
+      'sweet unaware acoustic ability armor scheme often notice index artefact trap blouse',
+      'BTC',
+      {}
+    );
+
+    console.log(hash);
+  } catch (error) {
+    t.truthy(typeof error === 'object');
   }
 });
 /* 
@@ -131,6 +145,31 @@ test('balance for LTC address', async (t) => {
       'LTC'
     );
     t.is(balance.value, 99799450);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('transactions for BTC address', async (t) => {
+  try {
+    const txns = await getTransactions(
+      'bc1q96wk25mvsj6rxgvhwcl27rykwx7c30xgze2ee0',
+      'BTC'
+    );
+    t.is(txns?.total, 2);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('transaction data for BTC txn', async (t) => {
+  try {
+    const txn = await getTransactionData(
+      'fd1ec977c647199979f3b0706c39b361b6072311367c8f76fd09e297cb7a85f9',
+      'BTC'
+    );
+    t.is(txn?.from[0].from, 'bc1q96wk25mvsj6rxgvhwcl27rykwx7c30xgze2ee0');
+    t.is(txn?.to[0].to, 'bc1qa6v268z24gsx587zwe66f7ucev4ne0sffe9ksk');
   } catch (error) {
     console.log(error);
   }
