@@ -1,11 +1,11 @@
 import { Client as bnbClient } from '@xchainjs/xchain-binance';
-import { Client as btcClient } from '@xchainjs/xchain-bitcoin';
+import { Client as btcClient, BTC_DECIMAL } from '@xchainjs/xchain-bitcoin';
 import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
 import { Client as ethClient, ETH_DECIMAL } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
 import { Client as polkaClient } from '@xchainjs/xchain-polkadot';
-import { baseAmount } from '@xchainjs/xchain-util';
+import { baseAmount, AssetBTC } from '@xchainjs/xchain-util';
 import BigNumber from 'bignumber.js';
 
 import type { EarthBalance } from '../types';
@@ -48,6 +48,20 @@ export const transfer = async (
       amount: baseAmount(_amount),
       gasLimit: gasFee.gasLimit,
       gasPrice: gasFee.gasPrices.average,
+    });
+
+    return txHash;
+  } else if (symbol === 'BTC') {
+    const _amount = new BigNumber(amount).shiftedBy(BTC_DECIMAL);
+    const _btcClient = new btcClient({
+      network: (options?.network as Network) || ('testnet' as Network),
+      phrase: fromMnemonic,
+    });
+
+    const txHash = await _btcClient.transfer({
+      asset: AssetBTC,
+      recipient,
+      amount: baseAmount(_amount),
     });
 
     return txHash;

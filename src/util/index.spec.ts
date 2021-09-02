@@ -14,8 +14,22 @@ test('transfer from empty ETH address throws error', async (t) => {
 
     console.log(hash);
   } catch (error) {
-    console.log(error);
     t.truthy(error.code === 'INSUFFICIENT_FUNDS');
+  }
+});
+test('transfer from empty BTC address throws error', async (t) => {
+  try {
+    const hash = await transfer(
+      'bc1qa6v268z24gsx587zwe66f7ucev4ne0sffe9ksk',
+      '0.0001',
+      'sweet unaware acoustic ability armor scheme often notice index artefact trap blouse',
+      'BTC',
+      {}
+    );
+
+    console.log(hash);
+  } catch (error) {
+    t.truthy(typeof error === 'object');
   }
 });
 /* 
