@@ -37,9 +37,9 @@ export const transfer = async (
     const _ethClient = new ethClient({
       network: (options?.network as Network) || ('testnet' as Network),
       phrase: fromMnemonic,
-      ethplorerUrl:
-        (options?.ethplorerUrl as string) || 'https://api.ethplorer.io',
+      ethplorerUrl: options?.ethplorerUrl as string,
       ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      etherscanApiKey: options?.etherscanApiKey as string,
     });
     const gasFee = await _ethClient.estimateFeesWithGasPricesAndLimits({
       recipient,
@@ -149,9 +149,9 @@ export const getBalance = async (
     const _client = new ethClient({
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
-      ethplorerUrl:
-        (options?.ethplorerUrl as string) || 'https://api.ethplorer.io',
+      ethplorerUrl: options?.ethplorerUrl as string,
       ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      etherscanApiKey: options?.etherscanApiKey as string,
     });
     const _balance = await _client.getBalance(address);
     balance = {
@@ -259,9 +259,9 @@ export const getFees = async (
     const _client = new ethClient({
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
-      ethplorerUrl:
-        (options?.ethplorerUrl as string) || 'https://api.ethplorer.io',
+      ethplorerUrl: options?.ethplorerUrl as string,
       ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      etherscanApiKey: options?.etherscanApiKey as string,
     });
     fees = await _client.getFees();
 
