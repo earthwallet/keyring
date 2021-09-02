@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* esleslint-disable  prefer-const */
+
 import { Actor, HttpAgent } from '@dfinity/agent';
 import { key_new, Session } from '@dfinity/rosetta-client';
 import { address_from_hex } from '@dfinity/rosetta-client';
@@ -8,6 +10,7 @@ import ledger from '../ledger';
 import fetch from 'cross-fetch';
 
 export { address_to_hex } from '@dfinity/rosetta-client';
+import { TxsPage } from '@xchainjs/xchain-client';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
 
@@ -50,9 +53,9 @@ export const getBalance = async (address) => {
   return serverRes;
 };
 
-export const getTransactions = async (address) => {
-  let serverRes = {};
-
+export const getTransactions = async (address): Promise<TxsPage> => {
+  let serverRes = { total_count: 0, transactions: [] };
+  const txns = {} as TxsPage;
   const data = {
     network_identifier: {
       blockchain: 'Internet Computer',
@@ -80,7 +83,9 @@ export const getTransactions = async (address) => {
       console.log(error);
     });
 
-  return serverRes;
+  txns.total = serverRes?.total_count;
+  txns.txs = serverRes?.transactions;
+  return txns;
 };
 
 /**

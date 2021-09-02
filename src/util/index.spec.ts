@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { getBalance, transfer } from './';
+import { getBalance, transfer, getTransactions } from './';
 
 test('transfer from empty ETH address throws error', async (t) => {
   try {
@@ -145,6 +145,18 @@ test('balance for LTC address', async (t) => {
       'LTC'
     );
     t.is(balance.value, 99799450);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('transactions for BTC address', async (t) => {
+  try {
+    const txns = await getTransactions(
+      'bc1q96wk25mvsj6rxgvhwcl27rykwx7c30xgze2ee0',
+      'BTC'
+    );
+    t.is(txns?.total, 2);
   } catch (error) {
     console.log(error);
   }

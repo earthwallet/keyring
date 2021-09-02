@@ -7,6 +7,7 @@ import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
 import { Client as polkaClient } from '@xchainjs/xchain-polkadot';
 import { baseAmount, AssetBTC } from '@xchainjs/xchain-util';
 import BigNumber from 'bignumber.js';
+import { TxsPage } from '@xchainjs/xchain-client';
 
 import type { EarthBalance } from '../types';
 
@@ -80,7 +81,7 @@ const TEST_MNE_1 =
 export const getBalance = async (
   address: string,
   symbol: string,
-  options: Record<string, unknown>
+  options?: Record<string, unknown>
 ): Promise<EarthBalance> => {
   let balance = {
     value: 0,
@@ -191,8 +192,8 @@ export const getBalance = async (
   return balance;
 };
 
-export const getTransactions = async (address, symbol) => {
-  let txns = {};
+export const getTransactions = async (address, symbol): Promise<TxsPage> => {
+  let txns = {} as TxsPage;
   if (symbol === 'ICP') {
     txns = await getTransactionsICP(address);
   } else if (symbol === 'BNB') {
@@ -261,6 +262,7 @@ export const getFees = async (symbol, options) => {
     const { fast, fastest, average } = await _client.getFees();
 
     return { fast, fastest, average };
+  } else {
+    return false;
   }
-  return;
 };
