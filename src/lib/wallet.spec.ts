@@ -198,7 +198,39 @@ test('create wallet for BTC', async (t) => {
     console.log(error);
   }
 });
+test('create wallet for DOGE', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'DOGE'
+    );
 
+    t.like(walletObj, {
+      address: 'DDiV3gzT8uereLM1VscymdoSAWiRE6LANy',
+      type: 'ecdsa',
+      desc: 'bech32 address',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for BTG', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'BTG'
+    );
+
+    t.like(walletObj, {
+      address: 'GYxq4bsS9ze6rBpzHgDyy2Bx66zX45QCjN',
+      type: 'ecdsa',
+      desc: 'bech32 address',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 test('create wallet for LTC', async (t) => {
   try {
     const walletObj = await createWallet(
