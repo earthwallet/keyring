@@ -38,7 +38,7 @@ export const transfer = async (
       network: (options?.network as Network) || ('testnet' as Network),
       phrase: fromMnemonic,
       ethplorerUrl: options?.ethplorerUrl as string,
-      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      ethplorerApiKey: options?.ethplorerApiKey as string,
       etherscanApiKey: options?.etherscanApiKey as string,
     });
     const gasFee = await _ethClient.estimateFeesWithGasPricesAndLimits({
@@ -150,7 +150,7 @@ export const getBalance = async (
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
       ethplorerUrl: options?.ethplorerUrl as string,
-      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      ethplorerApiKey: options?.ethplorerApiKey as string,
       etherscanApiKey: options?.etherscanApiKey as string,
     });
     const _balance = await _client.getBalance(address);
@@ -260,7 +260,7 @@ export const getFees = async (
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
       ethplorerUrl: options?.ethplorerUrl as string,
-      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      ethplorerApiKey: options?.ethplorerApiKey as string,
       etherscanApiKey: options?.etherscanApiKey as string,
     });
     fees = await _client.getFees();
@@ -289,9 +289,9 @@ export const getTransactionData = async (
     const _client = new ethClient({
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
-      ethplorerUrl:
-        (options?.ethplorerUrl as string) || 'https://api.ethplorer.io',
-      ethplorerApiKey: (options?.ethplorerApiKey as string) || null,
+      ethplorerUrl: options?.ethplorerUrl as string,
+      ethplorerApiKey: options?.ethplorerApiKey as string,
+      etherscanApiKey: options?.etherscanApiKey as string,
     });
     txn = await _client.getTransactionData(txId);
 
