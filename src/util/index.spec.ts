@@ -97,7 +97,7 @@ test('balance for ETH address', async (t) => {
       '0x9d39Bd670D7Ef1880E5B733d08C5b42942884F05',
       'ETH'
     );
-    t.is(balance.value, 196556676072680220);
+    t.is(balance.value, 85741019263580370);
   } catch (error) {
     console.log(error);
   }

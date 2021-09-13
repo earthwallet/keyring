@@ -97,7 +97,7 @@ export const getTransactions = async (address): Promise<TxsPage> => {
  * @param {BigInt} amount
  * Specifies the number of ICP tokens to transfer. Can be specified as a number with up to eight (8) decimal places.
  * @param {BigInt?} max_fee
- * Specifies a transaction fee. The default is 10000 e8s i.e 0.001 ICP .
+ * Specifies a transaction fee. The default is 10000 e8s i.e 0.0001 ICP .
  * @param {object} opts
  * @returns {Promise<TransactionIdentifierResponse>}
  */
@@ -160,7 +160,7 @@ export const sendICP = async (identity, to_aid, from_sub, amount) => {
     memo: 0,
     from_subaccount: [getSubAccountArray(from_sub)],
     created_at_time: [],
-    amount: { e8s: amount * 100000000 },
+    amount: { e8s: Math.floor(amount * 100000000) },
   });
   return b;
 };
