@@ -3,9 +3,9 @@ import { Client as btcClient, BTC_DECIMAL } from '@xchainjs/xchain-bitcoin';
 import { Client as bchClient } from '@xchainjs/xchain-bitcoincash';
 import { Network } from '@xchainjs/xchain-client';
 import { Client as ethClient, ETH_DECIMAL } from '@xchainjs/xchain-ethereum';
-import { Client as ltcClient } from '@xchainjs/xchain-litecoin';
+import { Client as ltcClient, LTC_DECIMAL } from '@xchainjs/xchain-litecoin';
 import { Client as polkaClient } from '@xchainjs/xchain-polkadot';
-import { baseAmount, AssetBTC } from '@xchainjs/xchain-util';
+import { baseAmount, AssetBTC, AssetLTC } from '@xchainjs/xchain-util';
 import BigNumber from 'bignumber.js';
 import { TxsPage, Tx, Fees } from '@xchainjs/xchain-client';
 
@@ -63,6 +63,20 @@ export const transfer = async (
 
     const txHash = await _btcClient.transfer({
       asset: AssetBTC,
+      recipient,
+      amount: baseAmount(_amount),
+    });
+
+    return txHash;
+  } else if (symbol === 'LTC') {
+    const _amount = new BigNumber(amount).shiftedBy(LTC_DECIMAL);
+    const _ltcClient = new ltcClient({
+      network: (options?.network as Network) || ('testnet' as Network),
+      phrase: fromMnemonic,
+    });
+
+    const txHash = await _ltcClient.transfer({
+      asset: AssetLTC,
       recipient,
       amount: baseAmount(_amount),
     });
@@ -249,6 +263,15 @@ export const getFees = async (
   let fees = {} as Fees;
   if (symbol === 'BTC') {
     const _client = new btcClient({
+      network: 'mainnet' as Network,
+      phrase: TEST_MNE_1,
+    });
+    fees = await _client.getFees();
+
+    return fees;
+  }
+  if (symbol === 'LTC') {
+    const _client = new ltcClient({
       network: 'mainnet' as Network,
       phrase: TEST_MNE_1,
     });
