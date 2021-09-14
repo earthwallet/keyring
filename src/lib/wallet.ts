@@ -31,6 +31,8 @@ import Secp256k1KeyIdentity from '../util/icp/secpk256k1/identity';
 import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
+import * as bitcoin from 'bitcoinjs-lib';
+import { MnemonicWallet } from '@avalabs/avalanche-wallet-sdk';
 
 export const getPublicKeySecp256k1 = (privateKey, compress) => {
   const _secp256k1 = new elliptic.ec('secp256k1');
@@ -147,7 +149,7 @@ export const createWallet = async (
   options?: Record<string, unknown>
 ): Promise<EarthKeyringPair> => {
   const SLIP_ACCOUNT = account === undefined ? 0 : account;
-  const SLIP_INDEX = getSlipFromSymbol(symbol).index; //defaults to ethereum
+  const SLIP_INDEX = getSlipFromSymbol(symbol)?.index; //defaults to ethereum
   const SLIP_PATH = `m/44'/${SLIP_INDEX}'/0'/0/${SLIP_ACCOUNT}`;
   //  const ICP_PATH = `m/44'/223'/0'`;
 
@@ -225,6 +227,124 @@ export const createWallet = async (
         type: 'ecdsa',
       };
     }
+    case 'DOGE': {
+      const network = {
+        messagePrefix: '\x19Dogecoin Signed Message:\n',
+        bip32: {
+          public: 0x02facafd,
+          private: 0x02fac398,
+        },
+        bech32: null,
+        pubKeyHash: 0x1e,
+        scriptHash: 0x16,
+        wif: 0x9e,
+        dustThreshold: 0, // https://github.com/dogecoin/dogecoin/blob/v1.7.1/src/core.h#L155-L160
+      };
+      const seed = mnemonicToSeedSync(mnemonic);
+      const master = bitcoin.bip32
+        .fromSeed(seed, network)
+        .derivePath(SLIP_PATH);
+
+      const keyPair = bitcoin.ECPair.fromPrivateKey(master.privateKey, {
+        network: network,
+      });
+      const { address } = bitcoin.payments.p2pkh({
+        pubkey: keyPair.publicKey,
+        network: network,
+      });
+
+      return {
+        address,
+        desc: 'bech32 address',
+        type: 'ecdsa',
+      };
+    }
+    case 'ZEC': {
+      //Error
+      const network = {
+        messagePrefix: '\x18ZCash Signed Message:\n',
+        bip32: {
+          public: 0x0488b21e,
+          private: 0x0488ade4,
+        },
+        bech32: null,
+        pubKeyHash: 0x1cb8,
+        scriptHash: 0x1cbd,
+        wif: 0x80,
+        dustThreshold: 0, // https://github.com/dogecoin/dogecoin/blob/v1.7.1/src/core.h#L155-L160
+      };
+      const seed = mnemonicToSeedSync(mnemonic);
+      const master = bitcoin.bip32
+        .fromSeed(seed, network)
+        .derivePath(SLIP_PATH);
+
+      const keyPair = bitcoin.ECPair.fromPrivateKey(master.privateKey, {
+        network: network,
+      });
+      const { address } = bitcoin.payments.p2pkh({
+        pubkey: keyPair.publicKey,
+        network: network,
+      });
+
+      return {
+        address,
+        desc: 'bech32 address',
+        type: 'ecdsa',
+      };
+    }
+    case 'BTG': {
+      const network = {
+        messagePrefix: '\x18Bitcoin Gold Signed Message:\n',
+        bip32: {
+          public: 0x0488b21e,
+          private: 0x0488ade4,
+        },
+        bech32: 'btg',
+        pubKeyHash: 0x26,
+        scriptHash: 0x17,
+        wif: 0x80,
+        dustThreshold: 0, // https://github.com/dogecoin/dogecoin/blob/v1.7.1/src/core.h#L155-L160
+      };
+      const seed = mnemonicToSeedSync(mnemonic);
+      const master = bitcoin.bip32
+        .fromSeed(seed, network)
+        .derivePath(SLIP_PATH);
+
+      const keyPair = bitcoin.ECPair.fromPrivateKey(master.privateKey, {
+        network: network,
+      });
+      const { address } = bitcoin.payments.p2pkh({
+        pubkey: keyPair.publicKey,
+        network: network,
+      });
+
+      return {
+        address,
+        desc: 'bech32 address',
+        type: 'ecdsa',
+      };
+    }
+    case 'AVAX': {
+      const wallet = MnemonicWallet.fromMnemonic(mnemonic);
+
+      return {
+        address: wallet.getAddressX(),
+        desc: 'X-Chain address to receive funds.',
+        type: 'ecdsa',
+      };
+    }
+    case 'AVAP': {
+      const wallet = MnemonicWallet.fromMnemonic(mnemonic);
+
+      return {
+        address: wallet.getAddressP(),
+        desc: 'P-Chain address to receive funds.',
+        type: 'ecdsa',
+      };
+    }
+    case 'MATIC':
+    case 'BSC':
+    case 'AVAC':
     case 'ETH': {
       const _ethClient = new ethClient({
         network: 'mainnet' as Network,
@@ -236,6 +356,12 @@ export const createWallet = async (
 
       return {
         address: address,
+        desc:
+          symbol === 'BSC' || symbol === 'MATIC'
+            ? symbol === 'MATIC'
+              ? 'EVM network address'
+              : 'Binance Smartchain EVM network address'
+            : 'Ethereum address',
         type: 'ecdsa',
       };
     }
