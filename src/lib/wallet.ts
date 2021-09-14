@@ -32,6 +32,7 @@ import { principal_id_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
 import * as bitcoin from 'bitcoinjs-lib';
+import { MnemonicWallet } from '@avalabs/avalanche-wallet-sdk';
 
 export const getPublicKeySecp256k1 = (privateKey, compress) => {
   const _secp256k1 = new elliptic.ec('secp256k1');
@@ -148,7 +149,7 @@ export const createWallet = async (
   options?: Record<string, unknown>
 ): Promise<EarthKeyringPair> => {
   const SLIP_ACCOUNT = account === undefined ? 0 : account;
-  const SLIP_INDEX = getSlipFromSymbol(symbol).index; //defaults to ethereum
+  const SLIP_INDEX = getSlipFromSymbol(symbol)?.index; //defaults to ethereum
   const SLIP_PATH = `m/44'/${SLIP_INDEX}'/0'/0/${SLIP_ACCOUNT}`;
   //  const ICP_PATH = `m/44'/223'/0'`;
 
@@ -323,8 +324,27 @@ export const createWallet = async (
         type: 'ecdsa',
       };
     }
+    case 'AVAX': {
+      const wallet = MnemonicWallet.fromMnemonic(mnemonic);
+
+      return {
+        address: wallet.getAddressX(),
+        desc: 'X-Chain address to receive funds.',
+        type: 'ecdsa',
+      };
+    }
+    case 'AVAP': {
+      const wallet = MnemonicWallet.fromMnemonic(mnemonic);
+
+      return {
+        address: wallet.getAddressP(),
+        desc: 'P-Chain address to receive funds.',
+        type: 'ecdsa',
+      };
+    }
     case 'MATIC':
     case 'BSC':
+    case 'AVAC':
     case 'ETH': {
       const _ethClient = new ethClient({
         network: 'mainnet' as Network,

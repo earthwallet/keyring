@@ -44,6 +44,7 @@
     "node": ">=14"
   },
   "dependencies": {
+    "@avalabs/avalanche-wallet-sdk": "0.7.3",
     "@binance-chain/javascript-sdk": "^4.1.1",
     "@dfinity/agent": "^0.8.9",
     "@dfinity/candid": "^0.9.1",

@@ -163,6 +163,81 @@ test('create wallet for ETH', async (t) => {
   }
 });
 
+test('create wallet for AVAC', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'AVAC'
+    );
+    t.like(walletObj, {
+      address: '0x29bc7f4bfc7301b3ddb5c9c4348360fc0ad52ca8',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for MATIC', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'MATIC'
+    );
+    t.like(walletObj, {
+      address: '0x29bc7f4bfc7301b3ddb5c9c4348360fc0ad52ca8',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for BSC', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'BSC'
+    );
+    t.like(walletObj, {
+      address: '0x29bc7f4bfc7301b3ddb5c9c4348360fc0ad52ca8',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for AVAX', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'AVAX'
+    );
+    t.like(walletObj, {
+      address: 'X-avax1l5v3mtezh34tf4txg393fuh4va6kghvwczrr0c',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+test('create wallet for AVAP', async (t) => {
+  try {
+    const walletObj = await createWallet(
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano',
+      'AVAP'
+    );
+    t.like(walletObj, {
+      address: 'P-avax1l5v3mtezh34tf4txg393fuh4va6kghvwczrr0c',
+      type: 'ecdsa',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // can be tested manually from  https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp/related
 
 test('create wallet for BNB', async (t) => {
