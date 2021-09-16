@@ -32,7 +32,6 @@ export const getBalance = async ({
     network
   )}/${address}`;
   const response = await axios.get(url);
-  console.log(response, 'response');
   const balanceResponse: SochainResponse<BtcGetBalanceDTO> = response.data;
   const confirmed = assetAmount(
     balanceResponse.data.confirmed_balance,
@@ -44,6 +43,5 @@ export const getBalance = async ({
   );
   const netAmt = confirmed.amount().plus(unconfirmed.amount());
   const result = assetToBase(assetAmount(netAmt, BTC_DECIMAL));
-  console.log(result);
   return result;
 };
