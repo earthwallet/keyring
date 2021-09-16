@@ -1,5 +1,7 @@
 import { Client as bnbClient } from '@xchainjs/xchain-binance';
 import { Client as btcClient, BTC_DECIMAL } from '@xchainjs/xchain-bitcoin';
+import { getBalance as getBalanceBTC } from '../util/btc';
+
 import { Client as bchClient, BCH_DECIMAL } from '@xchainjs/xchain-bitcoincash';
 import { Client as ethClient, ETH_DECIMAL } from '@xchainjs/xchain-ethereum';
 import { Client as ltcClient, LTC_DECIMAL } from '@xchainjs/xchain-litecoin';
@@ -183,16 +185,16 @@ export const getBalance = async (
       },
     };
   } else if (symbol === 'BTC') {
-    const _client = new btcClient({
+    const amount = await getBalanceBTC({
+      sochainUrl: 'https://sochain.com/api/v2',
       network: 'mainnet' as Network,
-      phrase: TEST_MNE_1,
+      address,
     });
-    const _balance = await _client.getBalance(address);
     balance = {
-      value: _balance[0].amount.amount().toNumber(),
+      value: amount?.amount().toNumber(),
       currency: {
         symbol: symbol,
-        decimals: _balance[0].amount.decimal,
+        decimals: amount.decimal,
       },
     };
   } else if (symbol === 'ETH') {
