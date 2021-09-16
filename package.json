@@ -1,6 +1,6 @@
 {
   "name": "@earthwallet/keyring",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "description": "Secure key generation and other cryptographic functions for Earth Wallet",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -60,7 +60,7 @@
     "@polkadot/util-crypto": "^7.0.2",
     "@psf/bitcoincashjs-lib": "^4.0.2",
     "@xchainjs/xchain-binance": "^5.2.5",
-    "@xchainjs/xchain-bitcoin": "^0.15.11",
+    "@xchainjs/xchain-bitcoin": "0.15.11",
     "@xchainjs/xchain-bitcoincash": "^0.11.8",
     "@xchainjs/xchain-client": "^0.10.2",
     "@xchainjs/xchain-crypto": "^0.2.5",

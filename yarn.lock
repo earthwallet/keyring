@@ -2268,10 +2268,10 @@
   resolved "https://registry.yarnpkg.com/@xchainjs/xchain-binance/-/xchain-binance-5.3.1.tgz#915f41a0636d70dcd1ee871e6e7e1da7db1f2ab2"
   integrity sha512-wTI9/WBAu3rEWPj6WQdcap0et+0sUMCVTAjOAqypC+us9dhgtPm38LevykcTOvWXCi1OybTYtyu80YFftK0T+w==
 
-"@xchainjs/xchain-bitcoin@^0.15.11":
-  version "0.15.12"
-  resolved "https://registry.yarnpkg.com/@xchainjs/xchain-bitcoin/-/xchain-bitcoin-0.15.12.tgz#0c3a8ef9fa234f58b910b7538419feee8571e284"
-  integrity sha512-r1EBXJubToklEl26WtHd6hs2Aaizp0PNOZaT1ZjEveNC0kbsW4JOmvQCjigyJ+Sx0NEYowODLar2aAz5/pq/GA==
+"@xchainjs/xchain-bitcoin@0.15.11":
+  version "0.15.11"
+  resolved "https://registry.yarnpkg.com/@xchainjs/xchain-bitcoin/-/xchain-bitcoin-0.15.11.tgz#958984d6d97afc75f2e6b4d03e5f9f4f14229727"
+  integrity sha512-gM759KCfMb5V9nRng4nLp6ao7zID5PejzBMXPwGD9DP5Jyv3NpFTJTQaoA+zP33GkwNVp0o+GO15l1eXNC8uFg==
 
 "@xchainjs/xchain-bitcoincash@^0.11.8":
   version "0.11.9"

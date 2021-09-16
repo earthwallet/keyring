@@ -82,10 +82,10 @@ test('balance for KSM address', async (t) => {
 test('balance for BTC address', async (t) => {
   try {
     const balance = await getBalance(
-      'bc1q96wk25mvsj6rxgvhwcl27rykwx7c30xgze2ee0',
+      'bc1qhv2k3xqj5vpt0rldu9avyyjuu7l7kyglly27fc',
       'BTC'
     );
-    t.is(balance.value, 0);
+    t.is(balance.value, 5000);
   } catch (error) {
     console.log(error);
   }
@@ -109,7 +109,7 @@ test('balance for BCH address', async (t) => {
       'qp794xu9ns88n3vy4yfk5ffcyqxukcvewcwevf6wez',
       'BCH'
     );
-    t.is(balance.value, 49849616);
+    t.is(balance.value, 47647138);
   } catch (error) {
     console.log(error);
   }
@@ -144,7 +144,7 @@ test('balance for LTC address', async (t) => {
       'ltc1qq8um23n4yp6n250a2ylgwjuzxdufhwgmt58j4s',
       'LTC'
     );
-    t.is(balance.value, 99799450);
+    t.is(balance.value, 99099224);
   } catch (error) {
     console.log(error);
   }
