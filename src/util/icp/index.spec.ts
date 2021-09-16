@@ -2,7 +2,7 @@
 import test from 'ava';
 
 import { createWallet } from '../../lib/wallet';
-import { sendICP } from '.';
+import { sendICP, indexToHash } from '.';
 
 //https://github.com/dfinity/internet-identity/tree/main
 
@@ -23,5 +23,19 @@ test('send transaction throws error for empty address', async (t) => {
   } catch (error) {
     console.log(error, typeof error, JSON.stringify(error));
     t.truthy(true);
+  }
+});
+
+test('get hash from index with indexToHash', async (t) => {
+  try {
+    const hash = await indexToHash(660209);
+
+    t.is(
+      hash,
+      'dad49f3a954a4109410b4d7af65f3e6385e4dc35872c3c21ed1d0135fe27e52e'
+    );
+  } catch (error) {
+    console.log(error);
+    t.truthy(false);
   }
 });

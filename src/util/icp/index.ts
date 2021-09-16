@@ -186,33 +186,33 @@ export const principal_id_to_address = (pid) => {
   return sha224([ACCOUNT_DOMAIN_SEPERATOR, pid.toBlob(), SUB_ACCOUNT_ZERO]);
 };
 
-export const indexToHash = (index) => {
-  const fetchHeaders = new Headers();
-  fetchHeaders.append('cache-control', 'no-cache');
-  fetchHeaders.append('accept', 'application/json, text/plain, */*');
-  fetchHeaders.append('content-type', 'application/json;charset=UTF-8');
-
-  const raw = {
+export const indexToHash = async (index: BigInt | number) => {
+  let serverRes = { block: { transactions: [] } };
+  const data = {
     network_identifier: {
       blockchain: 'Internet Computer',
       network: '00000000000000020101',
     },
-    block_identifier: { index: index },
-  };
-  const requestOptions: RequestInit = {
-    method: 'POST',
-    headers: fetchHeaders,
-    body: JSON.stringify(raw),
-    redirect: 'follow',
+    block_identifier: { index: Number(index) },
   };
 
-  const hash = fetch(
-    'https://rosetta-api.internetcomputer.org/block',
-    requestOptions
-  )
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log('error', error));
+  const config: AxiosRequestConfig = {
+    method: 'post',
+    url: 'https://rosetta-api.internetcomputer.org/block',
+    headers: {
+      accept: 'application/json, text/plain, */*',
+    },
+    data: data,
+  };
 
-  return hash;
+  await axios(config)
+    .then(function (response) {
+      serverRes = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+      return null;
+    });
+
+  return serverRes?.block?.transactions[0]?.transaction_identifier?.hash;
 };
