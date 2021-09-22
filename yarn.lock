@@ -756,7 +756,20 @@
     js-sha256 "0.9.0"
     simple-cbor "^0.4.1"
 
-"@dfinity/candid@^0.9.1":
+"@dfinity/agent@^0.9.3":
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/@dfinity/agent/-/agent-0.9.3.tgz#e49f07d6749e534c4c30aa2df2bba59e3fa9570f"
+  integrity sha512-vR0t5Uf+srbUHTdGunJxek3a4jCmBKU+B2yYEX0/aSGQfJmEf5X5snuNcnrIDOCfHeK7uxmOqs65BdI8Lhn4fg==
+  dependencies:
+    base64-arraybuffer "^0.2.0"
+    bignumber.js "^9.0.0"
+    borc "^2.1.1"
+    buffer "^6.0.3"
+    buffer-pipe "^0.0.4"
+    js-sha256 "0.9.0"
+    simple-cbor "^0.4.1"
+
+"@dfinity/candid@^0.9.3":
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@dfinity/candid/-/candid-0.9.3.tgz#96b2a5339da634ccc5546a0560f48f5ceef70dfe"
   integrity sha512-VMovKFrExqN0mwcn1/aut4Ou4cA9IA2+QrBjV+Ro4eVCpVvGpVRqn4jizlV9QnJjcuEBG1yImIG5RKMdZ2ejQQ==
@@ -764,7 +777,7 @@
     buffer "^6.0.3"
     buffer-pipe "^0.0.4"
 
-"@dfinity/identity-ledgerhq@^0.9.2":
+"@dfinity/identity-ledgerhq@^0.9.3":
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@dfinity/identity-ledgerhq/-/identity-ledgerhq-0.9.3.tgz#838f23648dfafa9176acf62753f213fd5a18c788"
   integrity sha512-5hQoBa9UKGjpJKwhlRv52Xpw9GI5vguZsyQJvW7wlhBz51B2Dajnruqb41qr8jxtVFDbq2mqykKFoNYlyHrSEA==
@@ -773,7 +786,7 @@
     "@ledgerhq/hw-transport-webhid" "^5.49.0"
     "@zondax/ledger-dfinity" "0.2.1"
 
-"@dfinity/identity@^0.9.1":
+"@dfinity/identity@^0.9.3":
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@dfinity/identity/-/identity-0.9.3.tgz#7d65d1ee7655d9028034bf22a92c21eea8b24028"
   integrity sha512-8mEpkLqGW74QMsVJzuewwN0tO1fdShAT+vyfQM08VOX/u4IHckH8zZ+qGTeXKaGzuwiJRa5WZT2U7L32LDfJJg==
@@ -783,7 +796,7 @@
     buffer-pipe "0.0.4"
     tweetnacl "^1.0.1"
 
-"@dfinity/principal@^0.9.2":
+"@dfinity/principal@^0.9.3":
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@dfinity/principal/-/principal-0.9.3.tgz#52e4980bac8dd35e7a6bb2564bea89df97383e06"
   integrity sha512-DSL3b/gGm+f57+3XkFjlK4DigtKXe9MVO8UYXDQWkVIhy0UF1KYjRNGs6awc1GTQoOTxeQ8UTFwXuvnEvJ1hpQ==
@@ -802,6 +815,17 @@
     json-bigint "^1.0.0"
     node-forge "^0.10.0"
     tweetnacl "^1.0.3"
+
+"@earthgohan/dab-js@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@earthgohan/dab-js/-/dab-js-0.1.9.tgz#57077acad17917a8b4811cd1a7020fd65d00ce58"
+  integrity sha512-RS/9+CYX+OBvnPWMa8t0fQfGBx3JNtPYyQXbaJRmSkOcdf5kxBY1w7VXXs4BRxCbmHXctn71kMTzIsWFeSyQQA==
+  dependencies:
+    "@dfinity/agent" "^0.9.3"
+    "@dfinity/identity" "^0.9.3"
+    "@dfinity/principal" "^0.9.3"
+    buffer-crc32 "^0.2.13"
+    crypto-js "^4.1.1"
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"

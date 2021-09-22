@@ -85,7 +85,7 @@ test('balance for BTC address', async (t) => {
       'bc1qhv2k3xqj5vpt0rldu9avyyjuu7l7kyglly27fc',
       'BTC'
     );
-    t.is(balance.value, 5000);
+    t.is(balance.value, 8000);
   } catch (error) {
     console.log(error);
   }

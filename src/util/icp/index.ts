@@ -11,6 +11,9 @@ import fetch from 'cross-fetch';
 
 export { address_to_hex } from '@dfinity/rosetta-client';
 import { TxsPage } from '@xchainjs/xchain-client';
+import { Principal } from '@dfinity/principal';
+import { getAllUserNFTs, NFTCollection } from '@earthgohan/dab-js';
+import { createWallet } from '../../lib/wallet';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
 
@@ -183,7 +186,11 @@ export const SUB_ACCOUNT_ZERO = Buffer.alloc(32);
 export const ACCOUNT_DOMAIN_SEPERATOR = Buffer.from('\x0Aaccount-id');
 
 export const principal_id_to_address = (pid) => {
-  return sha224([ACCOUNT_DOMAIN_SEPERATOR, pid.toBlob(), SUB_ACCOUNT_ZERO]);
+  return sha224([
+    ACCOUNT_DOMAIN_SEPERATOR,
+    pid.toUint8Array(),
+    SUB_ACCOUNT_ZERO,
+  ]);
 };
 
 export const indexToHash = async (index: BigInt | number) => {
@@ -215,4 +222,36 @@ export const indexToHash = async (index: BigInt | number) => {
     });
 
   return serverRes?.block?.transactions[0]?.transaction_identifier?.hash;
+};
+
+export const stringifyBigInt = (data) =>
+  JSON.stringify(data, (_, value) =>
+    typeof value === 'bigint' ? value.toString() + 'n' : value
+  );
+
+export const getNFTCollections = async (
+  principal: string
+): Promise<NFTCollection[]> => {
+  const seedPhrase =
+    'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano';
+
+  const dummyWallet = await createWallet(seedPhrase, 'ICP');
+
+  const agent = await Promise.resolve(
+    new HttpAgent({
+      host: 'https://ic0.app/',
+      fetch,
+      identity: dummyWallet.identity,
+    })
+  ).then(async (ag) => {
+    await ag.fetchRootKey();
+    return ag;
+  });
+
+  const collections = await getAllUserNFTs(
+    agent,
+    Principal.fromText(principal)
+  );
+
+  return collections;
 };
