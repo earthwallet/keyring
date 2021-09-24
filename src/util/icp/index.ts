@@ -13,8 +13,13 @@ export { address_to_hex } from '@dfinity/rosetta-client';
 import { TxsPage } from '@xchainjs/xchain-client';
 import { Principal } from '@dfinity/principal';
 import { getAllUserNFTs, NFTCollection } from '@earthgohan/dab-js';
-import { createWallet } from '../../lib/wallet';
-import { ICP_HOST, TEST_MNE_1 } from './constants';
+import {
+  ICP_HOST,
+  ICP_NETWORK_IDENTIFIER,
+  LEDGER_CANISTER_ID,
+  ROSETTA_URL,
+} from './constants';
+import IDL from './candid/ext.did';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
 
@@ -28,10 +33,7 @@ export const getBalance = async (address) => {
   };
 
   const data = {
-    network_identifier: {
-      blockchain: 'Internet Computer',
-      network: '00000000000000020101',
-    },
+    network_identifier: ICP_NETWORK_IDENTIFIER,
     account_identifier: {
       address: address,
     },
@@ -39,7 +41,7 @@ export const getBalance = async (address) => {
 
   const config: AxiosRequestConfig = {
     method: 'post',
-    url: 'https://rosetta-api.internetcomputer.org/account/balance',
+    url: `${ROSETTA_URL}/account/balance`,
     headers: {
       accept: 'application/json, text/plain, */*',
     },
@@ -61,10 +63,7 @@ export const getTransactions = async (address): Promise<TxsPage> => {
   let serverRes = { total_count: 0, transactions: [] };
   const txns = {} as TxsPage;
   const data = {
-    network_identifier: {
-      blockchain: 'Internet Computer',
-      network: '00000000000000020101',
-    },
+    network_identifier: ICP_NETWORK_IDENTIFIER,
     account_identifier: {
       address: address,
     },
@@ -72,7 +71,7 @@ export const getTransactions = async (address): Promise<TxsPage> => {
 
   const config: AxiosRequestConfig = {
     method: 'post',
-    url: 'https://rosetta-api.internetcomputer.org/search/transactions',
+    url: `${ROSETTA_URL}/search/transactions`,
     headers: {
       accept: 'application/json, text/plain, */*',
     },
@@ -108,7 +107,7 @@ export const getTransactions = async (address): Promise<TxsPage> => {
 
 export const sendTransaction = async (src_private_key, dest_addr, amount) => {
   const session = new Session({
-    baseUrl: 'https://rosetta-api.internetcomputer.org',
+    baseUrl: ROSETTA_URL,
   });
 
   const _src_private_key = key_new(Buffer.from(src_private_key, 'hex'));
@@ -126,7 +125,6 @@ export const sendTransaction = async (src_private_key, dest_addr, amount) => {
     console.log(error);
   }
 
-  console.log(submit_result);
   return submit_result;
 };
 
@@ -155,7 +153,7 @@ export const sendICP = async (identity, to_aid, from_sub, amount) => {
 
   const API = Actor.createActor(ledger, {
     agent: agent,
-    canisterId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+    canisterId: LEDGER_CANISTER_ID,
   });
 
   const b = await API.send_dfx({
@@ -197,16 +195,13 @@ export const principal_id_to_address = (pid) => {
 export const indexToHash = async (index: BigInt | number) => {
   let serverRes = { block: { transactions: [] } };
   const data = {
-    network_identifier: {
-      blockchain: 'Internet Computer',
-      network: '00000000000000020101',
-    },
+    network_identifier: ICP_NETWORK_IDENTIFIER,
     block_identifier: { index: Number(index) },
   };
 
   const config: AxiosRequestConfig = {
     method: 'post',
-    url: 'https://rosetta-api.internetcomputer.org/block',
+    url: `${ROSETTA_URL}/block`,
     headers: {
       accept: 'application/json, text/plain, */*',
     },
@@ -233,13 +228,10 @@ export const stringifyBigInt = (data) =>
 export const getNFTCollections = async (
   principal: string
 ): Promise<NFTCollection[]> => {
-  const fetchWallet = await createWallet(TEST_MNE_1, 'ICP');
-
   const agent = await Promise.resolve(
     new HttpAgent({
       host: ICP_HOST,
       fetch,
-      identity: fetchWallet.identity,
     })
   ).then(async (ag) => {
     await ag.fetchRootKey();
@@ -252,4 +244,52 @@ export const getNFTCollections = async (
   );
 
   return collections;
+};
+
+export const getNFTsFromCanisterOfPrincipal = async (
+  canisterId: string,
+  accountId: string
+) => {
+  //const fetchWallet = await createWallet(TEST_MNE_1, 'ICP');
+
+  const agent = await Promise.resolve(
+    new HttpAgent({
+      host: ICP_HOST,
+      fetch,
+    })
+  ).then(async (ag) => {
+    await ag.fetchRootKey();
+    return ag;
+  });
+
+  const API = Actor.createActor(IDL, {
+    agent: agent,
+    canisterId: canisterId,
+  });
+
+  let tokens: any;
+
+  try {
+    tokens = await API.tokens_ext(accountId);
+  } catch (error) {
+    console.log(error);
+    tokens = null;
+  }
+
+  const tokensOK = tokens?.ok || [];
+
+  return tokensOK.map((token) => {
+    const tokenIndex = parseInt(token[0]);
+    const info = { seller: '', price: BigInt(0), locked: [] };
+    info.seller = token[1][0].seller.toText();
+    info.price = BigInt(token[1][0].price);
+    info.locked = token[1][0].locked;
+    const metadata = token[2];
+
+    return {
+      metadata,
+      info,
+      tokenIndex,
+    };
+  });
 };
