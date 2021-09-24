@@ -6,7 +6,7 @@ import { key_new, Session } from '@dfinity/rosetta-client';
 import { address_from_hex } from '@dfinity/rosetta-client';
 import { sha224 } from '@dfinity/rosetta-client/lib/hash';
 import axios, { AxiosRequestConfig } from 'axios';
-import ledger from '../ledger';
+import ledger from './candid/ledger.did';
 import fetch from 'cross-fetch';
 
 export { address_to_hex } from '@dfinity/rosetta-client';
@@ -14,6 +14,7 @@ import { TxsPage } from '@xchainjs/xchain-client';
 import { Principal } from '@dfinity/principal';
 import { getAllUserNFTs, NFTCollection } from '@earthgohan/dab-js';
 import { createWallet } from '../../lib/wallet';
+import { ICP_HOST, TEST_MNE_1 } from './constants';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
 
@@ -143,7 +144,7 @@ const to32bits = (num) => {
 export const sendICP = async (identity, to_aid, from_sub, amount) => {
   const agent = await Promise.resolve(
     new HttpAgent({
-      host: 'https://ic0.app/',
+      host: ICP_HOST,
       fetch,
       identity: identity,
     })
@@ -232,16 +233,13 @@ export const stringifyBigInt = (data) =>
 export const getNFTCollections = async (
   principal: string
 ): Promise<NFTCollection[]> => {
-  const seedPhrase =
-    'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano';
-
-  const dummyWallet = await createWallet(seedPhrase, 'ICP');
+  const fetchWallet = await createWallet(TEST_MNE_1, 'ICP');
 
   const agent = await Promise.resolve(
     new HttpAgent({
-      host: 'https://ic0.app/',
+      host: ICP_HOST,
       fetch,
-      identity: dummyWallet.identity,
+      identity: fetchWallet.identity,
     })
   ).then(async (ag) => {
     await ag.fetchRootKey();
