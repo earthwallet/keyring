@@ -6,7 +6,7 @@ import {
   sendICP,
   indexToHash,
   getNFTCollections,
-  getNFTsFromCanisterOfPrincipal,
+  getNFTsFromCanisterExt,
 } from '.';
 
 //https://github.com/dfinity/internet-identity/tree/main
@@ -70,7 +70,7 @@ test('get hash from index with indexToHash', async (t) => {
 
 test('get tokens for a canister for a user', async (t) => {
   try {
-    const tokens = await getNFTsFromCanisterOfPrincipal(
+    const tokens = await getNFTsFromCanisterExt(
       'owuqd-dyaaa-aaaah-qapxq-cai',
       '0ba1b7b1643929210dc41a8afbe031bd1b5e81dbc8e3b3b64978f5f743f058c3'
     );
@@ -80,7 +80,7 @@ test('get tokens for a canister for a user', async (t) => {
       info: {
         seller:
           'o7nwu-n6kuf-4afzp-ybcuf-346pr-odd54-damf5-v4pvc-4sexh-cabph-7qe',
-        price: BigInt(200000000),
+        price: BigInt(400000000),
         locked: [],
       },
       tokenIndex: 2112,

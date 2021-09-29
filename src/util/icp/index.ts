@@ -19,7 +19,9 @@ import {
   LEDGER_CANISTER_ID,
   ROSETTA_URL,
 } from './constants';
-import IDL from './candid/ext.did';
+import { default as IDL_EXT } from './candid/ext.did';
+import { Identity } from '@dfinity/agent';
+import { address_to_hex } from '@dfinity/rosetta-client';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
 
@@ -184,7 +186,7 @@ export const utf8ToBytes = (str: string): Uint8Array => {
 export const SUB_ACCOUNT_ZERO = Buffer.alloc(32);
 export const ACCOUNT_DOMAIN_SEPERATOR = Buffer.from('\x0Aaccount-id');
 
-export const principal_id_to_address = (pid) => {
+export const principal_id_to_address_buffer = (pid) => {
   return sha224([
     ACCOUNT_DOMAIN_SEPERATOR,
     pid.toUint8Array(),
@@ -246,7 +248,7 @@ export const getNFTCollections = async (
   return collections;
 };
 
-export const getNFTsFromCanisterOfPrincipal = async (
+export const getNFTsFromCanisterExt = async (
   canisterId: string,
   accountId: string
 ) => {
@@ -262,7 +264,7 @@ export const getNFTsFromCanisterOfPrincipal = async (
     return ag;
   });
 
-  const API = Actor.createActor(IDL, {
+  const API = Actor.createActor(IDL_EXT, {
     agent: agent,
     canisterId: canisterId,
   });
@@ -271,6 +273,68 @@ export const getNFTsFromCanisterOfPrincipal = async (
 
   try {
     tokens = await API.tokens_ext(accountId);
+  } catch (error) {
+    console.log(error);
+    tokens = null;
+  }
+
+  const tokensOK = tokens?.ok || [];
+
+  return tokensOK.map((token) => {
+    const tokenIndex = parseInt(token[0]);
+    const info = { seller: '', price: BigInt(0), locked: [] };
+    info.seller = token[1][0].seller.toText();
+    info.price = BigInt(token[1][0].price);
+    info.locked = token[1][0].locked;
+    const metadata = token[2];
+
+    return {
+      metadata,
+      info,
+      tokenIndex,
+    };
+  });
+};
+
+export const principal_to_address = (princial) =>
+  address_to_hex(principal_id_to_address_buffer(princial));
+
+export const transferNFTsExt = async (
+  canisterId: string,
+  fromIdentity: Identity,
+  toAccountId: string,
+  tokenIndex: string
+) => {
+  //const fetchWallet = await createWallet(TEST_MNE_1, 'ICP');
+
+  const agent = await Promise.resolve(
+    new HttpAgent({
+      host: ICP_HOST,
+      fetch,
+      identity: fromIdentity,
+    })
+  ).then(async (ag) => {
+    await ag.fetchRootKey();
+    return ag;
+  });
+
+  const API = Actor.createActor(IDL_EXT, {
+    agent: agent,
+    canisterId: canisterId,
+  });
+
+  let tokens: any;
+
+  try {
+    tokens = await API.tokens_ext({
+      to: { address: toAccountId },
+      from: { address: principal_to_address(fromIdentity.getPrincipal()) },
+      token: tokenIndex,
+      amount: BigInt(1),
+      memo: 0,
+      notify: false,
+      subaccount: [],
+    });
   } catch (error) {
     console.log(error);
     tokens = null;
