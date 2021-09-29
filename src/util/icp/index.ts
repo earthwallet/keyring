@@ -283,21 +283,41 @@ export const getNFTsFromCanisterExt = async (
   return tokensOK.map((token) => {
     const tokenIndex = parseInt(token[0]);
     const info = { seller: '', price: BigInt(0), locked: [] };
-    info.seller = token[1][0].seller.toText();
-    info.price = BigInt(token[1][0].price);
-    info.locked = token[1][0].locked;
-    const metadata = token[2];
+    let forSale = false;
+    if (token[1][0] !== undefined) {
+      info.seller = token[1][0]?.seller.toText();
+      info.price = BigInt(token[1][0]?.price);
+      info.locked = token[1][0]?.locked;
+      forSale = true;
+    }
 
+    const metadata = token[2];
+    const tokenIdentifier = getTokenIdentifier(canisterId, tokenIndex);
     return {
       metadata,
       info,
       tokenIndex,
+      tokenIdentifier,
+      forSale,
     };
   });
 };
 
 export const principal_to_address = (princial) =>
   address_to_hex(principal_id_to_address_buffer(princial));
+
+export const getTokenIdentifier = (
+  canisterId: string,
+  index: number
+): string => {
+  const padding = Buffer.from('\x0Atid');
+  const array = new Uint8Array([
+    ...padding,
+    ...Principal.fromText(canisterId).toUint8Array(),
+    ...to32bits(index),
+  ]);
+  return Principal.fromUint8Array(array).toText();
+};
 
 export const transferNFTsExt = async (
   canisterId: string,
@@ -323,37 +343,34 @@ export const transferNFTsExt = async (
     canisterId: canisterId,
   });
 
-  let tokens: any;
+  let status: any;
+  const token = getTokenIdentifier(canisterId, parseInt(tokenIndex));
+  const memo = new Array(32).fill(0);
 
   try {
-    tokens = await API.tokens_ext({
+    status = await API.transfer({
       to: { address: toAccountId },
       from: { address: principal_to_address(fromIdentity.getPrincipal()) },
-      token: tokenIndex,
+      token,
       amount: BigInt(1),
-      memo: 0,
+      memo,
       notify: false,
       subaccount: [],
     });
   } catch (error) {
-    console.log(error);
-    tokens = null;
+    console.log(error, JSON.stringify(error));
+    status = null;
   }
 
-  const tokensOK = tokens?.ok || [];
-
-  return tokensOK.map((token) => {
-    const tokenIndex = parseInt(token[0]);
-    const info = { seller: '', price: BigInt(0), locked: [] };
-    info.seller = token[1][0].seller.toText();
-    info.price = BigInt(token[1][0].price);
-    info.locked = token[1][0].locked;
-    const metadata = token[2];
-
-    return {
-      metadata,
-      info,
-      tokenIndex,
-    };
-  });
+  if (status?.err?.Other === 'This token is currently listed for sale!') {
+    status = 'TOKEN_LISTED_FOR_SALE';
+  } else if (
+    status?.err?.Unauthorized ===
+    principal_to_address(fromIdentity.getPrincipal())
+  ) {
+    status = 'UNAUTHORISED';
+  } else if (status.ok === BigInt(1)) {
+    status = 'SUCCESS';
+  }
+  return status;
 };

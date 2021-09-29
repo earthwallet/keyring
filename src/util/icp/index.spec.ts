@@ -7,6 +7,7 @@ import {
   indexToHash,
   getNFTCollections,
   getNFTsFromCanisterExt,
+  transferNFTsExt,
 } from '.';
 
 //https://github.com/dfinity/internet-identity/tree/main
@@ -52,9 +53,6 @@ test('get nft collections for an address', async (t) => {
 });
 
 test('get hash from index with indexToHash', async (t) => {
-  t.truthy(true);
-  return;
-
   try {
     const hash = await indexToHash(660209);
 
@@ -84,7 +82,30 @@ test('get tokens for a canister for a user', async (t) => {
         locked: [],
       },
       tokenIndex: 2112,
+      tokenIdentifier: '5pzgh-likor-uwiaa-aaaaa-b4ad5-4aqca-aabba-a',
+      forSale: true,
     });
+  } catch (error) {
+    console.log(error);
+    t.truthy(false);
+  }
+});
+
+test('transfer saleable NFT of a canister should give TOKEN_LISTED_FOR_SALE status', async (t) => {
+  try {
+    const seedPhrase =
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano';
+
+    const walletObj = await createWallet(seedPhrase, 'ICP');
+
+    const status = await transferNFTsExt(
+      'owuqd-dyaaa-aaaah-qapxq-cai',
+      walletObj.identity,
+      '0ba1b7b1643929210dc41a8afbe031bd1b5e81dbc8e3b3b64978f5f743f058c3',
+      '2112'
+    );
+
+    t.is(status, 'TOKEN_LISTED_FOR_SALE');
   } catch (error) {
     console.log(error);
     t.truthy(false);
