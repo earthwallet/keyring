@@ -374,3 +374,49 @@ export const transferNFTsExt = async (
   }
   return status;
 };
+
+export const listNFTsExt = async (
+  canisterId: string,
+  identity: Identity,
+  tokenIndex: string,
+  price: number
+) => {
+  //const fetchWallet = await createWallet(TEST_MNE_1, 'ICP');
+
+  const agent = await Promise.resolve(
+    new HttpAgent({
+      host: ICP_HOST,
+      fetch,
+      identity,
+    })
+  ).then(async (ag) => {
+    await ag.fetchRootKey();
+    return ag;
+  });
+
+  const API = Actor.createActor(IDL_EXT, {
+    agent: agent,
+    canisterId: canisterId,
+  });
+
+  let status: any;
+  const token = getTokenIdentifier(canisterId, parseInt(tokenIndex));
+
+  try {
+    status = await API.list({
+      token,
+      price: [Math.floor(price * 100000000)],
+      from_subaccount: [getSubAccountArray(0)],
+    });
+  } catch (error) {
+    console.log(error, JSON.stringify(error));
+    status = null;
+  }
+
+  if (status?.err?.Other === 'Not authorized') {
+    status = 'UNAUTHORISED';
+  } else if (status.ok === null) {
+    status = 'SUCCESS';
+  }
+  return status;
+};

@@ -8,6 +8,7 @@ import {
   getNFTCollections,
   getNFTsFromCanisterExt,
   transferNFTsExt,
+  listNFTsExt,
 } from '.';
 
 //https://github.com/dfinity/internet-identity/tree/main
@@ -106,6 +107,27 @@ test('transfer saleable NFT of a canister should give TOKEN_LISTED_FOR_SALE stat
     );
 
     t.is(status, 'TOKEN_LISTED_FOR_SALE');
+  } catch (error) {
+    console.log(error);
+    t.truthy(false);
+  }
+});
+
+test('list not owned NFT of a canister should give UNAUTHORISED status', async (t) => {
+  try {
+    const seedPhrase =
+      'open jelly jeans corn ketchup supreme brief element armed lens vault weather original scissors rug priority vicious lesson raven spot gossip powder person volcano';
+
+    const walletObj = await createWallet(seedPhrase, 'ICP');
+
+    const status = await listNFTsExt(
+      'owuqd-dyaaa-aaaah-qapxq-cai',
+      walletObj.identity,
+      '2112',
+      4
+    );
+
+    t.is(status, 'UNAUTHORISED');
   } catch (error) {
     console.log(error);
     t.truthy(false);
