@@ -1,6 +1,6 @@
 {
   "name": "@earthwallet/keyring",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Secure key generation and other cryptographic functions for Earth Wallet",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -51,7 +51,6 @@
     "@dfinity/identity-ledgerhq": "^0.9.3",
     "@dfinity/principal": "^0.9.3",
     "@dfinity/rosetta-client": "^0.5.2",
-    "@earthgohan/dab-js": "^0.1.9",
     "@ethersproject/bignumber": "^5.3.0",
     "@metamask/slip44": "^1.0.0",
     "@polkadot/api": "^5.1.1",
@@ -92,8 +91,6 @@
     "starkbank-ecdsa": "^1.1.2",
     "subtle-crypto": "^0.0.0",
     "tweetnacl": "^1.0.3",
-    "verifiablecredentials-crypto-sdk-typescript-plugin": "^1.1.11",
-    "verifiablecredentials-crypto-sdk-typescript-plugin-factory": "^1.1.11",
     "wif": "^2.0.6"
   },
   "devDependencies": {

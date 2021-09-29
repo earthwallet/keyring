@@ -12,7 +12,6 @@ import fetch from 'cross-fetch';
 export { address_to_hex } from '@dfinity/rosetta-client';
 import { TxsPage } from '@xchainjs/xchain-client';
 import { Principal } from '@dfinity/principal';
-import { getAllUserNFTs, NFTCollection } from '@earthgohan/dab-js';
 import {
   ICP_HOST,
   ICP_NETWORK_IDENTIFIER,
@@ -226,27 +225,6 @@ export const stringifyBigInt = (data) =>
   JSON.stringify(data, (_, value) =>
     typeof value === 'bigint' ? value.toString() + 'n' : value
   );
-
-export const getNFTCollections = async (
-  principal: string
-): Promise<NFTCollection[]> => {
-  const agent = await Promise.resolve(
-    new HttpAgent({
-      host: ICP_HOST,
-      fetch,
-    })
-  ).then(async (ag) => {
-    await ag.fetchRootKey();
-    return ag;
-  });
-
-  const collections = await getAllUserNFTs(
-    agent,
-    Principal.fromText(principal)
-  );
-
-  return collections;
-};
 
 export const getNFTsFromCanisterExt = async (
   canisterId: string,

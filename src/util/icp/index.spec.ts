@@ -5,7 +5,6 @@ import { createWallet } from '../../lib/wallet';
 import {
   sendICP,
   indexToHash,
-  getNFTCollections,
   getNFTsFromCanisterExt,
   transferNFTsExt,
   listNFTsExt,
@@ -27,26 +26,6 @@ test('send transaction throws error for empty address', async (t) => {
       0.003
     );
     console.log(hash);
-  } catch (error) {
-    console.log(error, typeof error, JSON.stringify(error));
-    t.truthy(true);
-  }
-});
-
-test('get nft collections for an address', async (t) => {
-  try {
-    const collections = await getNFTCollections(
-      'o7nwu-n6kuf-4afzp-ybcuf-346pr-odd54-damf5-v4pvc-4sexh-cabph-7qe'
-    );
-
-    t.like(collections[0], {
-      name: 'ICPuzzle',
-      canisterId: 'owuqd-dyaaa-aaaah-qapxq-cai',
-      standard: 'EXT',
-      description:
-        'The ICPuzzle NFT is an artistic NFT that is meant to invoke thought around individuality, community, and the beauty of the human condition. Each puzzle piece represents human individuality within humanity, a self-contained piece of a larger cohesive whole.',
-      icon: 'https://owuqd-dyaaa-aaaah-qapxq-cai.raw.ic0.app/?tokenid=2e7o5-wykor-uwiaa-aaaaa-b4ad5-4aqca-aaagc-q',
-    });
   } catch (error) {
     console.log(error, typeof error, JSON.stringify(error));
     t.truthy(true);
