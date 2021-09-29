@@ -58,7 +58,7 @@ test('get tokens for a canister for a user', async (t) => {
       info: {
         seller:
           'o7nwu-n6kuf-4afzp-ybcuf-346pr-odd54-damf5-v4pvc-4sexh-cabph-7qe',
-        price: BigInt(400000000),
+        price: BigInt(18000000000),
         locked: [],
       },
       tokenIndex: 2112,
