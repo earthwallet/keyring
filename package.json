@@ -1,6 +1,6 @@
 {
   "name": "@earthwallet/keyring",
-  "version": "0.2.11",
+  "version": "0.3.1",
   "description": "Secure key generation and other cryptographic functions for Earth Wallet",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
