@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-//import { blobFromBuffer } from '@dfinity/agent';
-//import { Bip39Ed25519KeyIdentity } from '@dfinity/authentication';
 import { blobFromUint8Array } from '@dfinity/candid';
 import { Ed25519KeyIdentity } from '@dfinity/identity';
 import { Secp256k1PublicKey } from '@dfinity/identity-ledgerhq';
-import { address_to_hex } from '@dfinity/rosetta-client';
 import Keyring from '@polkadot/keyring';
 import { u8aToHex, u8aToU8a } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -28,7 +24,7 @@ import * as nacl from 'tweetnacl';
 
 import type { EarthKeyringPair } from '../types';
 import Secp256k1KeyIdentity from '../util/icp/secpk256k1/identity';
-import { principal_id_to_address } from '../util/icp';
+import { principal_to_address } from '../util/icp';
 
 import SLIP44 from './slip44';
 import * as bitcoin from 'bitcoinjs-lib';
@@ -412,9 +408,7 @@ export const createWallet = async (
           return {
             identity: keyPair,
             publicKey: keyPair.toJSON()[0],
-            address: address_to_hex(
-              principal_id_to_address(keyPair.getPrincipal())
-            ),
+            address: principal_to_address(keyPair.getPrincipal()),
             sign: (message: string) =>
               nacl.sign.detached(
                 u8aToU8a(message),
@@ -440,9 +434,7 @@ export const createWallet = async (
           return {
             identity: identity,
             publicKey: identity.toJSON()[0],
-            address: address_to_hex(
-              principal_id_to_address(identity.getPrincipal())
-            ),
+            address: principal_to_address(identity.getPrincipal()),
             type: 'ecdsa',
           };
         }

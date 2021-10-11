@@ -6,11 +6,18 @@ import { key_new, Session } from '@dfinity/rosetta-client';
 import { address_from_hex } from '@dfinity/rosetta-client';
 import { sha224 } from '@dfinity/rosetta-client/lib/hash';
 import axios, { AxiosRequestConfig } from 'axios';
-import ledger from '../ledger';
+import ledger from './candid/ledger.did';
 import fetch from 'cross-fetch';
 
 export { address_to_hex } from '@dfinity/rosetta-client';
 import { TxsPage } from '@xchainjs/xchain-client';
+import {
+  ICP_HOST,
+  ICP_NETWORK_IDENTIFIER,
+  LEDGER_CANISTER_ID,
+  ROSETTA_URL,
+} from './constants';
+import { address_to_hex } from '@dfinity/rosetta-client';
 
 //https://github.com/dfinity/agent-js/blob/6e8c64cf07c7722aafbf52351eb0f19fcb954ff0/packages/identity-ledgerhq/src/identity/secp256k1.ts
 
@@ -24,10 +31,7 @@ export const getBalance = async (address) => {
   };
 
   const data = {
-    network_identifier: {
-      blockchain: 'Internet Computer',
-      network: '00000000000000020101',
-    },
+    network_identifier: ICP_NETWORK_IDENTIFIER,
     account_identifier: {
       address: address,
     },
@@ -35,7 +39,7 @@ export const getBalance = async (address) => {
 
   const config: AxiosRequestConfig = {
     method: 'post',
-    url: 'https://rosetta-api.internetcomputer.org/account/balance',
+    url: `${ROSETTA_URL}/account/balance`,
     headers: {
       accept: 'application/json, text/plain, */*',
     },
@@ -57,10 +61,7 @@ export const getTransactions = async (address): Promise<TxsPage> => {
   let serverRes = { total_count: 0, transactions: [] };
   const txns = {} as TxsPage;
   const data = {
-    network_identifier: {
-      blockchain: 'Internet Computer',
-      network: '00000000000000020101',
-    },
+    network_identifier: ICP_NETWORK_IDENTIFIER,
     account_identifier: {
       address: address,
     },
@@ -68,7 +69,7 @@ export const getTransactions = async (address): Promise<TxsPage> => {
 
   const config: AxiosRequestConfig = {
     method: 'post',
-    url: 'https://rosetta-api.internetcomputer.org/search/transactions',
+    url: `${ROSETTA_URL}/search/transactions`,
     headers: {
       accept: 'application/json, text/plain, */*',
     },
@@ -104,7 +105,7 @@ export const getTransactions = async (address): Promise<TxsPage> => {
 
 export const sendTransaction = async (src_private_key, dest_addr, amount) => {
   const session = new Session({
-    baseUrl: 'https://rosetta-api.internetcomputer.org',
+    baseUrl: ROSETTA_URL,
   });
 
   const _src_private_key = key_new(Buffer.from(src_private_key, 'hex'));
@@ -122,7 +123,6 @@ export const sendTransaction = async (src_private_key, dest_addr, amount) => {
     console.log(error);
   }
 
-  console.log(submit_result);
   return submit_result;
 };
 
@@ -140,7 +140,7 @@ const to32bits = (num) => {
 export const sendICP = async (identity, to_aid, from_sub, amount) => {
   const agent = await Promise.resolve(
     new HttpAgent({
-      host: 'https://ic0.app/',
+      host: ICP_HOST,
       fetch,
       identity: identity,
     })
@@ -151,7 +151,7 @@ export const sendICP = async (identity, to_aid, from_sub, amount) => {
 
   const API = Actor.createActor(ledger, {
     agent: agent,
-    canisterId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+    canisterId: LEDGER_CANISTER_ID,
   });
 
   const b = await API.send_dfx({
@@ -182,23 +182,24 @@ export const utf8ToBytes = (str: string): Uint8Array => {
 export const SUB_ACCOUNT_ZERO = Buffer.alloc(32);
 export const ACCOUNT_DOMAIN_SEPERATOR = Buffer.from('\x0Aaccount-id');
 
-export const principal_id_to_address = (pid) => {
-  return sha224([ACCOUNT_DOMAIN_SEPERATOR, pid.toBlob(), SUB_ACCOUNT_ZERO]);
+export const principal_id_to_address_buffer = (pid) => {
+  return sha224([
+    ACCOUNT_DOMAIN_SEPERATOR,
+    pid.toUint8Array(),
+    SUB_ACCOUNT_ZERO,
+  ]);
 };
 
 export const indexToHash = async (index: BigInt | number) => {
   let serverRes = { block: { transactions: [] } };
   const data = {
-    network_identifier: {
-      blockchain: 'Internet Computer',
-      network: '00000000000000020101',
-    },
+    network_identifier: ICP_NETWORK_IDENTIFIER,
     block_identifier: { index: Number(index) },
   };
 
   const config: AxiosRequestConfig = {
     method: 'post',
-    url: 'https://rosetta-api.internetcomputer.org/block',
+    url: `${ROSETTA_URL}/block`,
     headers: {
       accept: 'application/json, text/plain, */*',
     },
@@ -216,3 +217,11 @@ export const indexToHash = async (index: BigInt | number) => {
 
   return serverRes?.block?.transactions[0]?.transaction_identifier?.hash;
 };
+
+export const stringifyBigInt = (data) =>
+  JSON.stringify(data, (_, value) =>
+    typeof value === 'bigint' ? value.toString() + 'n' : value
+  );
+
+export const principal_to_address = (princial) =>
+  address_to_hex(principal_id_to_address_buffer(princial));
